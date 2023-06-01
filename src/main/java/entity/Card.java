@@ -4,8 +4,8 @@ import domain.Shape;
 import domain.Value;
 
 public class Card {
-    private Shape shape;
-    private Value value;
+    private final Shape shape;
+    private final Value value;
 
     public Card(Shape shape, Value value) {
         this.shape = shape;

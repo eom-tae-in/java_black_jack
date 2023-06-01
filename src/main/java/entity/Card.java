@@ -1,19 +1,22 @@
 package entity;
 
-public class Card {
-    String shape;
-    String value;
+import domain.Shape;
+import domain.Value;
 
-    public Card(String shape, String value) {
+public class Card {
+    private Shape shape;
+    private Value value;
+
+    public Card(Shape shape, Value value) {
         this.shape = shape;
         this.value = value;
     }
 
-    public String getShape() {
+    public Shape getShape() {
         return shape;
     }
 
-    public String getValue() {
+    public Value getValue() {
         return value;
     }
 }

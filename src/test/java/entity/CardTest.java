@@ -1,9 +1,12 @@
 package entity;
 
 import domain.Shape;
+import domain.Value;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.*;
 
 public class CardTest {
 
@@ -18,7 +21,9 @@ public class CardTest {
         Card card = new Card(shape, value);
 
         //then
-        Assertions.assertThat(card.getShape()).isEqualTo(shape);
-        Assertions.assertThat(card.getValue()).isEqualTo(value);
+        assertThat(card.getShape()).isEqualTo(shape);
+        assertThat(card.getValue()).isEqualTo(value);
+        assertThat(card.getShape().getShape()).isEqualTo(shape.getShape());
+        assertThat(card.getValue().getValue()).isEqualTo(value.getValue());
     }
 }

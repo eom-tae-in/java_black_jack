@@ -14,9 +14,9 @@ public enum CardShape {
         this.shape = shape;
     }
 
-    static String validate(String cardShape) {
-        return Arrays.stream(values()).filter(s -> s.shape.getShape().equals(cardShape))
-                .findAny().orElseThrow(IllegalArgumentException::new).shape.getShape();
+    public static Shape validate(Shape cardShape) {
+        return Arrays.stream(values()).filter(s -> s.shape.equals(cardShape))
+                .findAny().orElseThrow(IllegalArgumentException::new).shape;
 
     }
 }

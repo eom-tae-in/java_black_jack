@@ -24,8 +24,8 @@ public enum CardValue {
         this.value = value;
     }
 
-    static String validate(String cardValue) {
-        return Arrays.stream(values()).filter(v -> v.value.getValue().equals(cardValue))
-                .findAny().orElseThrow(IllegalArgumentException::new).value.getValue();
+     public static Value validate(Value cardValue) {
+        return Arrays.stream(values()).filter(v -> v.value.equals(cardValue))
+                .findAny().orElseThrow(IllegalArgumentException::new).value;
     }
 }

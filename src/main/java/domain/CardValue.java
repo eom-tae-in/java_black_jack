@@ -1,5 +1,7 @@
 package domain;
 
+import exception.NotExistValueException;
+
 import java.util.Arrays;
 
 public enum CardValue {
@@ -26,6 +28,6 @@ public enum CardValue {
 
      public static Value validate(Value cardValue) {
         return Arrays.stream(values()).filter(v -> v.value.getValue().equals(cardValue.getValue()))
-                .findAny().orElseThrow(IllegalArgumentException::new).value;
+                .findAny().orElseThrow(NotExistValueException::new).value;
     }
 }

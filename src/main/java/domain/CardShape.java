@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Arrays;
+
 public enum CardShape {
     SPADE(new Shape("spade")),
     HEART(new Shape("heart")),
@@ -12,7 +14,9 @@ public enum CardShape {
         this.shape = shape;
     }
 
-    static Shape getShape(CardShape cardShape) {
-        return cardShape.shape;
+    static String validate(String cardShape) {
+        return Arrays.stream(values()).filter(s -> s.shape.getShape().equals(cardShape))
+                .findAny().orElseThrow(IllegalArgumentException::new).shape.getShape();
+
     }
 }

@@ -1,5 +1,7 @@
 package domain;
 
+import exception.NotExistShapeException;
+
 import java.util.Arrays;
 
 public enum CardShape {
@@ -15,8 +17,8 @@ public enum CardShape {
     }
 
     public static Shape validate(Shape cardShape) {
-        return Arrays.stream(values()).filter(s -> s.shape.equals(cardShape))
-                .findAny().orElseThrow(IllegalArgumentException::new).shape;
+        return Arrays.stream(values()).filter(s -> s.shape.getShape().equals(cardShape.getShape()))
+                .findAny().orElseThrow(NotExistShapeException::new).shape;
 
     }
 }

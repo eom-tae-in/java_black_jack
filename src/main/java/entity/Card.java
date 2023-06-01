@@ -1,4 +1,4 @@
-package domain;
+package entity;
 
 public class Card {
     String shape;

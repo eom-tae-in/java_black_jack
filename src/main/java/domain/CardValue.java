@@ -1,4 +1,4 @@
-package Enum;
+package domain;
 
 public enum CardValue {
     ACE,

@@ -3,6 +3,7 @@ package entity;
 import domain.Shape;
 import domain.Value;
 import exception.NotExistShapeException;
+import exception.NotExistValueException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,5 +36,16 @@ public class CardTest {
 
         // when //then
         assertThatThrownBy(() -> new Card(shape, value)).isInstanceOf(NotExistShapeException.class);
+    }
+
+    @Test
+    @DisplayName("Card 인스턴스를 생성할 때 value 값이 전체 카드 덱에 존재하지 않는 경우 예외가 발생한다.")
+    void CardArgumentTest_Failure_NotExistValue() {
+        // given
+        Shape shape = new Shape("heart");
+        Value value = new Value("eleven");
+
+        // when // then
+        assertThatThrownBy(() -> new Card(shape, value)).isInstanceOf(NotExistValueException.class);
     }
 }

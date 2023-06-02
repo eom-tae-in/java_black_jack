@@ -1,5 +1,7 @@
 package entity;
 
+import domain.Shape;
+import domain.Value;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,17 @@ public class CardTest {
         Card card = new Card(shape, value);
 
         //then
-        assertThat(card.shape.getShape()).isEqualsTo(shape.getShape());
+        assertThat(card.getShape().getShape()).isEqualTo(shape.getShape());
+    }
+
+    @Test
+    @DisplayName("Card 인스턴스를 생성할 때 shape 값이 카드 문양이 아닐 경우 예외가 발생한다.")
+    void CardArgumentTest_Failure_NotExistShape() {
+        // given
+        Shape shape = new Shape("circle");
+        Value value = new Value("A");
+
+        // when //then
+        assertThatThrownBy(() -> new Card(shape, value)).isInstanceOf(NotExistShapeException.class);
     }
 }

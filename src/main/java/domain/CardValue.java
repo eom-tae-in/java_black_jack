@@ -1,5 +1,10 @@
 package domain;
 
+import exception.NotExistShapeException;
+import exception.NotExistValueException;
+
+import java.util.Arrays;
+
 public enum CardValue {
 
     ACE(new Value("A")),
@@ -20,5 +25,10 @@ public enum CardValue {
 
     CardValue(Value value) {
         this.value = value;
+    }
+
+    public static Value validate(Value cardValue) {
+        return Arrays.stream(values()).filter(v -> v.value.getValue().equals(cardValue.getValue()))
+                .findAny().orElseThrow(NotExistValueException::new).value;
     }
 }

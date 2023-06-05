@@ -1,9 +1,6 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class CardDeck {
 
@@ -13,10 +10,16 @@ public class CardDeck {
         return cardDeck;
     }
 
-    public ArrayList<Card> generate() {
+     ArrayList<Card> generate() {
         ArrayList<Card> cards = new ArrayList<>();
         Arrays.stream(CardShape.values()).forEach(cardShape -> Arrays.stream(CardValue.values())
                 .forEach(cardValue -> cards.add(new Card(cardShape.getShape(), cardValue.getValue()))));
         return cards;
+    }
+
+    public void ready() {
+        ArrayList<Card> generatedDeck = generate();
+        Collections.shuffle(generatedDeck);
+        cardDeck.addAll(generatedDeck);
     }
 }

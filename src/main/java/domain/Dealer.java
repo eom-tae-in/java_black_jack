@@ -29,4 +29,8 @@ public class Dealer {
     public int getSum() {
         return participant.getSum();
     }
+
+    public void win() {
+        participant.addWin();
+    }
 }

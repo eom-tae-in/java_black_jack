@@ -31,4 +31,8 @@ public class Result {
     public void addDrew() {
         this.drew++;
     }
+
+    public void addLose() {
+        this.lose++;
+    }
 }

@@ -37,4 +37,20 @@ public class UserDeckTest {
         //then
         assertThat(sum).isEqualTo(18);
     }
+
+    @Test
+    @DisplayName("유저 덱에 Ace가 존재하면 해당 인덱스를 반환하고 없으면 -1을 반환한다.")
+    void SwapAceToEnd() {
+        //given
+        UserDeck userDeck = new UserDeck();
+        userDeck.add(new DrawCardDto(new Card(new Shape("하트"), new Value("3", 3))));
+        userDeck.add(new DrawCardDto(new Card(new Shape("다이아몬드"), new Value("A", 1, 11))));
+        userDeck.add(new DrawCardDto(new Card(new Shape("스페이드"), new Value("2", 2))));
+
+        //when
+        int index = userDeck.findSpecialIndex();
+
+        //then
+        assertThat(index).isEqualTo(1);
+    }
 }

@@ -36,4 +36,12 @@ public class UserDeck {
                 .filter(i -> cards.get(i).getValue().equals(ACE))
                 .findAny().orElse(NOT_EXIST_SPECIAL);
     }
+
+    public int calculateSpecial(Card card, int sum) {
+        int specialSum = sum - card.getNumber() + card.getOtherNumber();
+        if (specialSum <= 21) {
+            return specialSum;
+        }
+        return sum;
+    }
 }

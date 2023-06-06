@@ -37,4 +37,8 @@ public class Dealer {
     public void drew() {
         participant.addDrew();
     }
+
+    public void lose() {
+        participant.addLose();
+    }
 }

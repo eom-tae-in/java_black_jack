@@ -2,7 +2,7 @@ package domain;
 
 public enum CardValue {
 
-    ACE(new Value(1)),
+    ACE(new Value(1, 11)),
     TWO(new Value(2)),
     THREE(new Value(3)),
     FOUR(new Value(4)),

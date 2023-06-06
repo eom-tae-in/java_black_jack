@@ -22,7 +22,7 @@ public class UserDeck {
     public int sum() {
         int sum = 0;
         for (Card c : cards) {
-            sum += c.getValue().getValue();
+            sum += c.getValue().getValue1();
         }
         return sum;
     }

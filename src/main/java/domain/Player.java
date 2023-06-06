@@ -35,4 +35,8 @@ public class Player {
     public void win() {
         participant.addWin();
     }
+
+    public void drew() {
+        participant.addDrew();
+    }
 }

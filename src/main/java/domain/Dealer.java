@@ -16,7 +16,7 @@ public class Dealer {
         }
     }
 
-    private boolean isMoreCard() {
+    public boolean isMoreCard() {
         return participant.getSum() <= 16;
     }
 

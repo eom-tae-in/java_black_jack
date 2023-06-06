@@ -10,11 +10,15 @@ public class Card {
         this.value = value;
     }
 
-    public Shape getShape() {
-        return shape;
+    public String getShape() {
+        return shape.getShape();
     }
 
-    public Value getValue() {
-        return value;
+    public String getValue() {
+        return value.getValue();
+    }
+
+    public int getNumber() {
+        return value.getNumber();
     }
 }

@@ -23,6 +23,15 @@ public class UserDeck {
         }
     }
 
+    public int sum() {
+        int sum = calculateSum();
+        int index = findSpecialIndex();
+        if (index != NOT_EXIST_SPECIAL) {
+            return calculateSpecial(cards.get(index), sum);
+        }
+        return sum;
+    }
+
     public int calculateSum() {
         int sum = 0;
         for (Card c : cards) {

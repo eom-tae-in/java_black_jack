@@ -21,4 +21,8 @@ public class Card {
     public int getNumber() {
         return value.getNumber();
     }
+
+    public int getOtherNumber() {
+        return value.getOtherNumber();
+    }
 }

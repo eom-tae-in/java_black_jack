@@ -1,7 +1,6 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -25,9 +24,9 @@ public class UserDeck {
 
     public int sum() {
         int sum = calculateSum();
-        int index = findSpecialIndex();
-        if (index != NOT_EXIST_SPECIAL) {
-            return calculateSpecial(cards.get(index), sum);
+        int specialIndex = findSpecialIndex();
+        if (specialIndex != NOT_EXIST_SPECIAL) {
+            return calculateMax(cards.get(specialIndex), sum);
         }
         return sum;
     }
@@ -46,7 +45,7 @@ public class UserDeck {
                 .findAny().orElse(NOT_EXIST_SPECIAL);
     }
 
-    public int calculateSpecial(Card card, int sum) {
+    public int calculateMax(Card card, int sum) {
         int specialSum = sum - card.getNumber() + card.getOtherNumber();
         if (specialSum <= 21) {
             return specialSum;

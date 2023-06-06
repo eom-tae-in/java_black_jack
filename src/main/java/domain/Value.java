@@ -4,12 +4,17 @@ public class Value {
 
     private final String value;
     private final int number;
-    private final int[] otherNumbers;
+    private int otherNumber;
 
-    public Value(final String value, int number, int ... otherNumbers) {
+    public Value(final String value, int number) {
         this.value = value;
         this.number = number;
-        this.otherNumbers = otherNumbers;
+    }
+
+    public Value(String value, int number, int otherNumber) {
+        this.value = value;
+        this.number = number;
+        this.otherNumber = otherNumber;
     }
 
     public int getNumber() {
@@ -20,7 +25,7 @@ public class Value {
         return value;
     }
 
-    public int[] getOtherNumbers() {
-        return otherNumbers;
+    public int getOtherNumber() {
+        return otherNumber;
     }
 }

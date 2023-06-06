@@ -1,6 +1,5 @@
 package domain;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -64,7 +63,7 @@ public class UserDeckTest {
         int sum = userDeck.calculateSum();
 
         //when
-        int specialSum = userDeck.calculateSpecial(card, sum);
+        int specialSum = userDeck.calculateMax(card, sum);
 
         //then
         assertThat(specialSum).isEqualTo(11);

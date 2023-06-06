@@ -29,6 +29,6 @@ public class Player {
     }
 
     public boolean isGameOver() {
-        return userDeck.sum() > BLACK_JACK;
+        return userDeck.calculateSum() > BLACK_JACK;
     }
 }

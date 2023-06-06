@@ -2,19 +2,19 @@ package domain;
 
 public enum CardValue {
 
-    ACE(new Value(1, 11)),
-    TWO(new Value(2)),
-    THREE(new Value(3)),
-    FOUR(new Value(4)),
-    FIVE(new Value(5)),
-    SIX(new Value(6)),
-    SEVEN(new Value(7)),
-    EIGHT(new Value(8)),
-    NINE(new Value(9)),
-    TEN(new Value(10)),
-    JACK(new Value(10)),
-    QUEEN(new Value(10)),
-    KING(new Value(10));
+    TWO(new Value("2", 2)),
+    THREE(new Value("3", 3)),
+    FOUR(new Value("4",4)),
+    FIVE(new Value("5",5)),
+    SIX(new Value("6", 6)),
+    SEVEN(new Value("7", 7)),
+    EIGHT(new Value("8", 8)),
+    NINE(new Value("9", 9)),
+    TEN(new Value("10", 10)),
+    JACK(new Value("J", 10)),
+    QUEEN(new Value("Q", 10)),
+    KING(new Value("K", 10)),
+    ACE(new Value("A", 1, 11));
 
     private final Value value;
 

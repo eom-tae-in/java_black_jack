@@ -1,10 +1,12 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class UserDeck {
+
+    private static final String ACE = "A";
 
     private final List<Card> cards = new ArrayList<>();
 
@@ -21,8 +23,8 @@ public class UserDeck {
 
     public int sum() {
         int sum = 0;
-        for (Card c : cards) {
-            sum += c.getValue().getValue1();
+        for (int i = 0; i < cards.size(); i++) {
+            swapCard(cards.get(i), i);
         }
         return sum;
     }

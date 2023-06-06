@@ -2,23 +2,25 @@ package domain;
 
 public class Value {
 
-    private final int value1;
-    private int value2;
+    private final String value;
+    private final int number;
+    private final int[] otherNumbers;
 
-    public Value(int value1) {
-        this.value1 = value1;
+    public Value(final String value, int number, int ... otherNumbers) {
+        this.value = value;
+        this.number = number;
+        this.otherNumbers = otherNumbers;
     }
 
-    public Value(int value1, int value2) {
-        this.value1 = value1;
-        this.value2 = value2;
+    public int getNumber() {
+        return number;
     }
 
-    public int getValue1() {
-        return value1;
+    public String getValue() {
+        return value;
     }
 
-    public int getValue2() {
-        return value2;
+    public int[] getOtherNumbers() {
+        return otherNumbers;
     }
 }

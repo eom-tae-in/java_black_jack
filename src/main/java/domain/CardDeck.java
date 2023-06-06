@@ -13,7 +13,8 @@ public class CardDeck {
 
      ArrayList<Card> generate() {
         ArrayList<Card> cards = new ArrayList<>();
-        Arrays.stream(CardShape.values()).forEach(cardShape -> Arrays.stream(CardValue.values())
+        Arrays.stream(CardShape.values())
+                .forEach(cardShape -> Arrays.stream(CardValue.values())
                 .forEach(cardValue -> cards.add(new Card(cardShape.getShape(), cardValue.getValue()))));
         return cards;
     }

@@ -15,8 +15,8 @@ public class PlayerTest {
         CardDeck cardDeck = new CardDeck();
         cardDeck.ready();
         UserDeck userDeck = new UserDeck();
-        DrawCardDto drawCardDto = new DrawCardDto(new Card(new Shape("스페이드"), new Value(6)),
-                new Card(new Shape("하트"), new Value(4)));
+        DrawCardDto drawCardDto = new DrawCardDto(new Card(new Shape("스페이드"), new Value("6", 6)),
+                new Card(new Shape("하트"), new Value("4", 4)));
         Player player = new Player(new Name("apple"), userDeck, cardDeck);
         userDeck.add(drawCardDto);
         String answer = "y";
@@ -35,9 +35,9 @@ public class PlayerTest {
         CardDeck cardDeck = new CardDeck();
         cardDeck.ready();
         UserDeck userDeck = new UserDeck();
-        userDeck.add(new DrawCardDto(new Card(new Shape("하트"), new Value(10))));
-        userDeck.add(new DrawCardDto(new Card(new Shape("스페이드"), new Value(10))));
-        userDeck.add(new DrawCardDto(new Card(new Shape("클로버"), new Value(10))));
+        userDeck.add(new DrawCardDto(new Card(new Shape("하트"), new Value("J", 10))));
+        userDeck.add(new DrawCardDto(new Card(new Shape("스페이드"), new Value("Q", 10))));
+        userDeck.add(new DrawCardDto(new Card(new Shape("클로버"), new Value("K", 10))));
         Player player = new Player(new Name("apple"), userDeck, cardDeck);
 
         //when

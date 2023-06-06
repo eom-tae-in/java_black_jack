@@ -40,4 +40,8 @@ public class Participant {
     public void addWin() {
         this.result.addWin();
     }
+
+    public void addDrew() {
+        this.result.addDrew();
+    }
 }

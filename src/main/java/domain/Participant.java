@@ -36,4 +36,8 @@ public class Participant {
     public String getName() {
         return name.getName();
     }
+
+    public void addWin() {
+        this.result.addWin();
+    }
 }

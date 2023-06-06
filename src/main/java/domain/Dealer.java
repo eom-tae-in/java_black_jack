@@ -11,9 +11,7 @@ public class Dealer {
     }
 
     public void drawCard() {
-        if (isMoreCard()) {
-            participant.add(participant.getDraw());
-        }
+        participant.add(participant.getDraw());
     }
 
     public boolean isMoreCard() {
@@ -26,5 +24,9 @@ public class Dealer {
 
     public void getCard(DrawCardDto drawCardDto) {
         participant.add(drawCardDto);
+    }
+
+    public int getSum() {
+        return participant.getSum();
     }
 }

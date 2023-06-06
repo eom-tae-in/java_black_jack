@@ -24,7 +24,7 @@ public class UserDeckTest {
 
     @Test
     @DisplayName("유저가 뽑은 카드들의 숫자를 더하여 반환한다.")
-    void SumUserDeck() {
+    void CalculateSumUserDeck() {
         //given
         UserDeck userDeck = new UserDeck();
         userDeck.add(new DrawCardDto(new Card(new Shape("스페이드"), new Value("7", 7))));
@@ -32,25 +32,9 @@ public class UserDeckTest {
         userDeck.add(new DrawCardDto(new Card(new Shape("클로버"), new Value("3", 3))));
 
         //when
-        int sum = userDeck.sum();
+        int sum = userDeck.calculateSum();
 
         //then
         assertThat(sum).isEqualTo(18);
-    }
-
-    @Test
-    @DisplayName("유저 덱에 A가 존재하는 경우 A가 덱의 마지막에 자리하도록 위치를 변경한다.")
-    void SortAceToEnd() {
-        //given
-        UserDeck userDeck = new UserDeck();
-        userDeck.add(new DrawCardDto(new Card(new Shape("다이아몬드"), new Value("A", 1, 11))));
-        userDeck.add(new DrawCardDto(new Card(new Shape("하트"), new Value("3", 3))));
-        userDeck.add(new DrawCardDto(new Card(new Shape("스페이드"), new Value("2", 2))));
-
-        //when
-        userDeck.swap();
-
-        //then
-        assertThat(userDeck.getCards().get(userDeck.getCards().size() - 1).getValue()).isEqualTo("A");
     }
 }

@@ -20,7 +20,7 @@ public class Participant {
         return this.userDeck.sum();
     }
 
-    public void getAdd(DrawCardDto drawCardDto) {
+    public void add(DrawCardDto drawCardDto) {
         this.userDeck.add(drawCardDto);
     }
 

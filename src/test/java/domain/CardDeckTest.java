@@ -26,7 +26,7 @@ public class CardDeckTest {
 
     @Test
     @DisplayName("카드덱에서 처음 카드를 뽑을 경우 카드가 2장 뽑히게 된다.")
-    void DrawCards() {
+    void DrawCardFirst() {
         //given
         CardDeck cardDeck = new CardDeck();
         cardDeck.ready();

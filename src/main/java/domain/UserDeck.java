@@ -30,4 +30,10 @@ public class UserDeck {
         }
         return sum;
     }
+
+    public int findSpecialIndex() {
+        return IntStream.range(0, cards.size())
+                .filter(i -> cards.get(i).getValue().equals(ACE))
+                .findAny().orElse(NOT_EXIST_SPECIAL);
+    }
 }

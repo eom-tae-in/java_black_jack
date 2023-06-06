@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 public class UserDeck {
 
     private static final String ACE = "A";
+    private static final int NOT_EXIST_SPECIAL = -1;
 
     private final List<Card> cards = new ArrayList<>();
 
@@ -22,21 +23,11 @@ public class UserDeck {
         }
     }
 
-    public int sum() {
-        swap();
+    public int calculateSum() {
         int sum = 0;
         for (Card c : cards) {
             sum += c.getNumber();
         }
         return sum;
-    }
-
-    public void swap() {
-        int index = IntStream.range(0, cards.size())
-                .filter(i -> cards.get(i).getValue().equals(ACE))
-                .findAny().orElse(-1);
-        if (index != -1) {
-            Collections.swap(cards, index, cards.size() - 1);
-        }
     }
 }

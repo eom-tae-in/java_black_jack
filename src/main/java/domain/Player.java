@@ -39,4 +39,8 @@ public class Player {
     public void drew() {
         participant.addDrew();
     }
+
+    public void lose() {
+        participant.addLose();
+    }
 }

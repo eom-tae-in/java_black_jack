@@ -5,6 +5,7 @@ public class Participant {
     private final Name name;
     private final UserDeck userDeck;
     private final CardDeck cardDeck;
+    private final Result result = new Result(0, 0, 0);
 
     public Participant(Name name, UserDeck userDeck, CardDeck cardDeck) {
         this.name = name;

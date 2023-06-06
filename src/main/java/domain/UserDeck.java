@@ -25,10 +25,10 @@ public class UserDeck {
     public int sum() {
         int sum = calculateSum();
         int specialIndex = findSpecialIndex();
-        if (specialIndex != NOT_EXIST_SPECIAL) {
-            return calculateMax(cards.get(specialIndex), sum);
+        if (specialIndex == NOT_EXIST_SPECIAL) {
+            return sum;
         }
-        return sum;
+        return calculateMax(cards.get(specialIndex), sum);
     }
 
     public int calculateSum() {

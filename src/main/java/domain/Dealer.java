@@ -15,4 +15,8 @@ public class Dealer {
             participant.getAdd(participant.getDraw());
         }
     }
+
+    public boolean isGameOver() {
+        return participant.getCalculateSum() > BLACK_JACK;
+    }
 }

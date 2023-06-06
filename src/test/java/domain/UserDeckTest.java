@@ -53,4 +53,20 @@ public class UserDeckTest {
         //then
         assertThat(index).isEqualTo(1);
     }
+
+    @Test
+    @DisplayName("유저 덱에 Ace가 있는 경우 1과 11의 경우를 모두 계산하여 21이 넘지 않는 최대값을 계산한다.")
+    void CalculateSpecial() {
+        //given
+        UserDeck userDeck = new UserDeck();
+        Card card = new Card(new Shape("스페이드"), new Value("A", 1, 11));
+        userDeck.add(new DrawCardDto(card));
+        int sum = userDeck.calculateSum();
+
+        //when
+        int specialSum = userDeck.calculateSpecial(card, sum);
+
+        //then
+        assertThat(specialSum).isEqualTo(11);
+    }
 }

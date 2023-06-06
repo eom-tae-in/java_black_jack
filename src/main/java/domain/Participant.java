@@ -12,6 +12,10 @@ public class Participant {
         this.cardDeck = cardDeck;
     }
 
+    public static Participant Dealer(UserDeck userDeck, CardDeck cardDeck) {
+        return new Participant(new Name("dealer"), userDeck, cardDeck);
+    }
+
     public int getSum() {
         return this.userDeck.sum();
     }

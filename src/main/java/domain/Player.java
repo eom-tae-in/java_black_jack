@@ -4,31 +4,23 @@ public class Player {
 
     private static final int BLACK_JACK = 21;
 
-    private final Name name;
-    private final UserDeck userDeck;
-    private final CardDeck cardDeck;
+    private final Participant participant;
 
-    public Player(final Name name, final UserDeck userDeck, final CardDeck cardDeck) {
-        this.name = name;
-        this.userDeck = userDeck;
-        this.cardDeck = cardDeck;
+    public Player(Participant participant) {
+        this.participant = participant;
     }
 
-    public Name getName() {
-        return name;
-    }
-
-    public UserDeck getUserDeck() {
-        return userDeck;
+    public Participant getParticipant() {
+        return participant;
     }
 
     public void drawCard(String answer) {
         if (answer.equals("y")) {
-            userDeck.add(cardDeck.draw());
+            participant.getAdd(participant.getDraw());
         }
     }
 
     public boolean isGameOver() {
-        return userDeck.calculateSum() > BLACK_JACK;
+        return participant.getCalculateSum() > BLACK_JACK;
     }
 }

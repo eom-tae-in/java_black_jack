@@ -10,4 +10,12 @@ public class UserDeck {
     public List<Card> getCards() {
         return cards;
     }
+
+    public void add(DrawCardDto drawCardDto) {
+        cards.add(drawCardDto.getFirst());
+        if (drawCardDto.getSecond() != null) {
+            cards.add(drawCardDto.getSecond());
+        }
+    }
+
 }

@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class UserDeck {
 
@@ -18,4 +19,11 @@ public class UserDeck {
         }
     }
 
+    public int sum() {
+        int sum = 0;
+        for (Card c : cards) {
+            sum += c.getValue().getValue();
+        }
+        return sum;
+    }
 }

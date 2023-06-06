@@ -32,10 +32,11 @@ public class CardDeckTest {
         cardDeck.ready();
 
         //when
-        List<Card> list = cardDeck.drawFirst();
+        DrawCardDto drawCardDto = cardDeck.drawFirst();
 
         //then
-        assertThat(list.size()).isEqualTo(2);
+        assertThat(drawCardDto.getFirst()).isNotNull();
+        assertThat(drawCardDto.getSecond()).isNotNull();
     }
 
     @Test
@@ -46,9 +47,10 @@ public class CardDeckTest {
         cardDeck.ready();
 
         //when
-        Card card = cardDeck.draw();
+        DrawCardDto drawCardDto = cardDeck.draw();
 
         //then
-        assertThat(card).isNotNull();
+        assertThat(drawCardDto.getFirst()).isNotNull();
+        assertThat(drawCardDto.getSecond()).isNull();
     }
 }

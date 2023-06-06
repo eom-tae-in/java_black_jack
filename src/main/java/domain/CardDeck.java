@@ -24,11 +24,11 @@ public class CardDeck {
         cardDeck.addAll(generatedDeck);
     }
 
-    public List<Card> drawFirst() {
-        return new ArrayList<>(){{ IntStream.range(0,2).forEach(i -> { add(cardDeck.poll());});
-        }};}
+    public DrawCardDto drawFirst() {
+        return new DrawCardDto(cardDeck.poll(), cardDeck.poll());
+    }
 
-    public Card draw() {
-        return cardDeck.poll();
+    public DrawCardDto draw() {
+        return new DrawCardDto(cardDeck.poll());
     }
 }

@@ -4,6 +4,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CardDeckTest {
@@ -15,9 +18,23 @@ public class CardDeckTest {
         CardDeck cardDeck = new CardDeck();
 
         //when
-        cardDeck.generate();
+        ArrayList<Card> cards = cardDeck.generate();
 
         //then
-        assertThat(cardDeck.getCardDeck().size()).isEqualTo(52);
+        assertThat(cards.size()).isEqualTo(52);
+    }
+
+    @Test
+    @DisplayName("카드덱에서 처음 카드를 뽑을 경우 카드가 2장 뽑히게 된다.")
+    void DrawCards() {
+        //given
+        CardDeck cardDeck = new CardDeck();
+        cardDeck.ready();
+
+        //when
+        List<Card> list = cardDeck.drawFirst();
+
+        //then
+        assertThat(list.size()).isEqualTo(2);
     }
 }

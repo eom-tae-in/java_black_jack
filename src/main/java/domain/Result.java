@@ -27,4 +27,8 @@ public class Result {
     public void addWin() {
         this.win++;
     }
+
+    public void addDrew() {
+        this.drew++;
+    }
 }

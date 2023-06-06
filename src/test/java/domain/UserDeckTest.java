@@ -37,4 +37,20 @@ public class UserDeckTest {
         //then
         assertThat(sum).isEqualTo(18);
     }
+
+    @Test
+    @DisplayName("유저 덱에 A가 존재하는 경우 카드들을 정렬하게 되면 A는 가장 뒤에 오게 된다.")
+    void SortAceToEnd() {
+        //given
+        UserDeck userDeck = new UserDeck();
+        userDeck.add(new DrawCardDto(new Card(new Shape("다이아몬드"), new Value("A", 1, 11))));
+        userDeck.add(new DrawCardDto(new Card(new Shape("하트"), new Value("3", 3))));
+        userDeck.add(new DrawCardDto(new Card(new Shape("스페이드"), new Value("2", 2))));
+
+        //when
+        userDeck.sort();
+
+        //then
+        assertThat(userDeck.getCards().get(userDeck.getCards().size() - 1).getValue()).isEqualTo("A");
+    }
 }

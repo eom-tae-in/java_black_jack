@@ -3,6 +3,7 @@ package domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class UserDeck {
 
@@ -22,10 +23,20 @@ public class UserDeck {
     }
 
     public int sum() {
+        swap();
         int sum = 0;
-        for (int i = 0; i < cards.size(); i++) {
-            swapCard(cards.get(i), i);
+        for (Card c : cards) {
+            sum += c.getNumber();
         }
         return sum;
+    }
+
+    public void swap() {
+        int index = IntStream.range(0, cards.size())
+                .filter(i -> cards.get(i).getValue().equals(ACE))
+                .findAny().orElse(-1);
+        if (index != -1) {
+            Collections.swap(cards, index, cards.size() - 1);
+        }
     }
 }

@@ -2,6 +2,8 @@ package domain;
 
 public class Player {
 
+    private static final int BLACK_JACK = 21;
+
     private final Name name;
     private final UserDeck userDeck;
     private final CardDeck cardDeck;
@@ -24,5 +26,9 @@ public class Player {
         if (answer.equals("y")) {
             userDeck.add(cardDeck.draw());
         }
+    }
+
+    public boolean isGameOver() {
+        return userDeck.sum() > BLACK_JACK;
     }
 }

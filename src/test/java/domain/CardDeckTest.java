@@ -37,4 +37,18 @@ public class CardDeckTest {
         //then
         assertThat(list.size()).isEqualTo(2);
     }
+
+    @Test
+    @DisplayName("카드덱에서 카드를 추가로 뽑을 때 카드가 1장 뽑히게 된다.")
+    void DrawCard() {
+        //given
+        CardDeck cardDeck = new CardDeck();
+        cardDeck.ready();
+
+        //when
+        Card card = cardDeck.draw();
+
+        //then
+        assertThat(card).isNotNull();
+    }
 }

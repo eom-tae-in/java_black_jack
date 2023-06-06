@@ -31,4 +31,8 @@ public class Participant {
     public int getCalculateSum() {
         return this.userDeck.calculateSum();
     }
+
+    public String getName() {
+        return name.getName();
+    }
 }

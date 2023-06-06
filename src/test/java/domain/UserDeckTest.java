@@ -39,7 +39,7 @@ public class UserDeckTest {
     }
 
     @Test
-    @DisplayName("유저 덱에 A가 존재하는 경우 카드들을 정렬하게 되면 A는 가장 뒤에 오게 된다.")
+    @DisplayName("유저 덱에 A가 존재하는 경우 A가 덱의 마지막에 자리하도록 위치를 변경한다.")
     void SortAceToEnd() {
         //given
         UserDeck userDeck = new UserDeck();
@@ -48,7 +48,7 @@ public class UserDeckTest {
         userDeck.add(new DrawCardDto(new Card(new Shape("스페이드"), new Value("2", 2))));
 
         //when
-        userDeck.sort();
+        userDeck.swap();
 
         //then
         assertThat(userDeck.getCards().get(userDeck.getCards().size() - 1).getValue()).isEqualTo("A");

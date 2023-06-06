@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class CardDeck {
 
@@ -22,4 +23,8 @@ public class CardDeck {
         Collections.shuffle(generatedDeck);
         cardDeck.addAll(generatedDeck);
     }
+
+    public List<Card> drawFirst() {
+        return new ArrayList<>(){{ IntStream.range(0,2).forEach(i -> { add(cardDeck.poll());});
+        }};}
 }

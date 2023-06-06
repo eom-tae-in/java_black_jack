@@ -69,4 +69,20 @@ public class UserDeckTest {
         //then
         assertThat(specialSum).isEqualTo(11);
     }
+
+    @Test
+    @DisplayName("유저 덱의 숫자들의 합을 전반적으로 계산하여 21이 넘지 않는 최대값을 반환한다.")
+    void SumUserDeck() {
+        //given
+        UserDeck userDeck = new UserDeck();
+        userDeck.add(new DrawCardDto(new Card(new Shape("하트"), new Value("J", 10))));
+        userDeck.add(new DrawCardDto(new Card(new Shape("하트"), new Value("Q", 10))));
+        userDeck.add(new DrawCardDto(new Card(new Shape("하트"), new Value("A", 1,11))));
+
+        //when
+        int sum = userDeck.sum();
+
+        //then
+        assertThat(sum).isEqualTo(21);
+    }
 }

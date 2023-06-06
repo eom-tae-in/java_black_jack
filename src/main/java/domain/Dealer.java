@@ -11,9 +11,13 @@ public class Dealer {
     }
 
     public void drawCard() {
-        if (participant.getSum() <= 16) {
-            participant.getAdd(participant.getDraw());
+        if (isMoreCard()) {
+            participant.add(participant.getDraw());
         }
+    }
+
+    private boolean isMoreCard() {
+        return participant.getSum() <= 16;
     }
 
     public boolean isGameOver() {
@@ -21,6 +25,6 @@ public class Dealer {
     }
 
     public void getCard(DrawCardDto drawCardDto) {
-        participant.getAdd(drawCardDto);
+        participant.add(drawCardDto);
     }
 }

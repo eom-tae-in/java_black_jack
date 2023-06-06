@@ -10,13 +10,9 @@ public class Player {
         this.participant = participant;
     }
 
-    public Participant getParticipant() {
-        return participant;
-    }
-
     public void drawCard(String answer) {
         if (answer.equals("y")) {
-            participant.getAdd(participant.getDraw());
+            participant.add(participant.getDraw());
         }
     }
 
@@ -25,6 +21,14 @@ public class Player {
     }
 
     public void getCard(DrawCardDto drawCardDto) {
-        participant.getAdd(drawCardDto);
+        participant.add(drawCardDto);
+    }
+
+    public String getName() {
+        return participant.getName();
+    }
+
+    public int getSum() {
+        return participant.getSum();
     }
 }

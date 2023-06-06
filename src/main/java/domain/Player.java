@@ -19,4 +19,10 @@ public class Player {
     public UserDeck getUserDeck() {
         return userDeck;
     }
+
+    public void drawCard(String answer) {
+        if (answer.equals("y")) {
+            userDeck.add(cardDeck.draw());
+        }
+    }
 }

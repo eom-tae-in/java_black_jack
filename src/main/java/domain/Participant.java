@@ -44,4 +44,8 @@ public class Participant {
     public void addDrew() {
         this.result.addDrew();
     }
+
+    public void addLose() {
+        this.result.addLose();
+    }
 }

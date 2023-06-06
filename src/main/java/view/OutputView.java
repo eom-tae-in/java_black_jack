@@ -8,4 +8,8 @@ public class OutputView {
     public void AskMore(Player player) {
         System.out.println(player.getName() + "는 한장의 카드를 더 받겠습니까?(예는 y, 아니오는 n)");
     }
+
+    public void printDealerDrew() {
+        System.out.println("딜러는 16이하라 한장의 카드를 더 받았습니다.");
+    }
 }

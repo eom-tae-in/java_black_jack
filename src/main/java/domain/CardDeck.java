@@ -27,4 +27,8 @@ public class CardDeck {
     public List<Card> drawFirst() {
         return new ArrayList<>(){{ IntStream.range(0,2).forEach(i -> { add(cardDeck.poll());});
         }};}
+
+    public Card draw() {
+        return cardDeck.poll();
+    }
 }

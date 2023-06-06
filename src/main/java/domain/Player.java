@@ -23,4 +23,8 @@ public class Player {
     public boolean isGameOver() {
         return participant.getCalculateSum() > BLACK_JACK;
     }
+
+    public void getCard(DrawCardDto drawCardDto) {
+        participant.getAdd(drawCardDto);
+    }
 }

@@ -37,6 +37,7 @@ public class OutputView {
     }
 
     public void printParticipantResult(Dealer dealer, Players players) {
+        System.out.println("## 최종 승패");
         printDealerResult(dealer);
         for (Player player : players.getPlayers()) {
             printPlayerResult(player);

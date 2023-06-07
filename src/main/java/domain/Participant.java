@@ -1,5 +1,8 @@
 package domain;
 
+import java.util.List;
+import java.util.Objects;
+
 public class Participant {
 
     private final Name name;
@@ -14,7 +17,7 @@ public class Participant {
     }
 
     public static Participant Dealer(UserDeck userDeck, CardDeck cardDeck) {
-        return new Participant(new Name("dealer"), userDeck, cardDeck);
+        return new Participant(new Name("딜러"), userDeck, cardDeck);
     }
 
     public int getSum() {
@@ -47,5 +50,13 @@ public class Participant {
 
     public void addLose() {
         this.result.addLose();
+    }
+
+    public List<Card> getUserDeck() {
+        return this.userDeck.getCards();
+    }
+
+    public Result getResult() {
+        return this.result;
     }
 }

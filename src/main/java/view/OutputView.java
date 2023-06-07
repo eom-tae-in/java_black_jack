@@ -45,6 +45,15 @@ public class OutputView {
         System.out.println(dealer.getName()+": " + result);
     }
 
+    private void printPlayerResult(Player player) {
+        sb = new StringBuilder();
+        Result result = player.getResult();
+        sb.append(printWin(result.getWin()));
+        sb.append(printDrew(result.getDrew()));
+        sb.append(printLose(result.getLose()));
+        System.out.println(player.getName() + ": " + result);
+    }
+
     private String printWin(int winNumber) {
         if (winNumber == 0) {
             return " ";

@@ -36,6 +36,15 @@ public class OutputView {
         System.out.println(player.getName() + "카드: " + deck + " = 결과: " + player.getSum());
     }
 
+    private void printDealerResult(Dealer dealer) {
+        sb = new StringBuilder();
+        Result result = dealer.getResult();
+        sb.append(printWin(result.getWin()));
+        sb.append(printDrew(result.getDrew()));
+        sb.append(printLose(result.getLose()));
+        System.out.println(dealer.getName()+": " + result);
+    }
+
     private String printWin(int winNumber) {
         if (winNumber == 0) {
             return " ";

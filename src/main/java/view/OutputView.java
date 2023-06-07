@@ -1,13 +1,14 @@
 package view;
 
-import domain.Dealer;
-import domain.Player;
-import domain.Players;
-import domain.Result;
+import domain.*;
 
 public class OutputView {
 
-    private StringBuilder sb;
+    private final StringBuilder sb = new StringBuilder();
+
+    public void AskName() {
+        System.out.println("게임에 참여할 사람의 이름을 입력하세요.(쉽표 기준으로 분리)");
+    }
 
     public void AskMore(Player player) {
         System.out.println(player.getName() + "는 한장의 카드를 더 받겠습니까?(예는 y, 아니오는 n)");
@@ -25,15 +26,19 @@ public class OutputView {
     }
 
     private void printDealerDeck(Dealer dealer) {
-        String deck = dealer.getDeck().toString();
-        deck = deck.substring(1, deck.length() - 1);
-        System.out.println(dealer.getName() + " 카드: " + deck + " = 결과: "+ dealer.getSum());
+        sb.setLength(0);
+        for (Card card : dealer.getDeck()) {
+            sb.append(card.getValue()).append(card.getShape()).append(", ");
+        }
+        System.out.println(dealer.getName() + " 카드: " + sb + " = 결과: "+ dealer.getSum());
     }
 
     private void printPlayerDeck(Player player) {
-        String deck = player.getDeck().toString();
-        deck = deck.substring(1, deck.length() - 1);
-        System.out.println(player.getName() + "카드: " + deck + " = 결과: " + player.getSum());
+        sb.setLength(0);
+        for (Card card : player.getDeck()) {
+            sb.append(card.getValue()).append(card.getShape()).append(", ");
+        }
+        System.out.println(player.getName() + "카드: " + sb + " = 결과: " + player.getSum());
     }
 
     public void printParticipantResult(Dealer dealer, Players players) {
@@ -45,40 +50,40 @@ public class OutputView {
     }
 
     private void printDealerResult(Dealer dealer) {
-        sb = new StringBuilder();
+        sb.setLength(0);
         Result result = dealer.getResult();
         sb.append(printWin(result.getWin()));
         sb.append(printDrew(result.getDrew()));
         sb.append(printLose(result.getLose()));
-        System.out.println(dealer.getName()+": " + result);
+        System.out.println(dealer.getName()+": " + sb);
     }
 
     private void printPlayerResult(Player player) {
-        sb = new StringBuilder();
+        sb.setLength(0);
         Result result = player.getResult();
         sb.append(printWin(result.getWin()));
         sb.append(printDrew(result.getDrew()));
         sb.append(printLose(result.getLose()));
-        System.out.println(player.getName() + ": " + result);
+        System.out.println(player.getName() + ": " + sb);
     }
 
     private String printWin(int winNumber) {
         if (winNumber == 0) {
-            return " ";
+            return "";
         }
         return winNumber + "승 ";
     }
 
     private String printDrew(int drewNumber) {
         if (drewNumber == 0) {
-            return " ";
+            return "";
         }
         return "무 ";
     }
 
     private String printLose(int loseNumber) {
         if (loseNumber == 0) {
-            return " ";
+            return "";
         }
         return "패 ";
     }

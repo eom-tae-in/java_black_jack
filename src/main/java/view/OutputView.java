@@ -19,4 +19,10 @@ public class OutputView {
         deck = deck.substring(1, deck.length() - 1);
         System.out.println(dealer.getName() + " 카드: " + deck + " = 결과: "+ dealer.getSum());
     }
+
+    private void printPlayerDeck(Player player) {
+        String deck = player.getDeck().toString();
+        deck = deck.substring(1, deck.length() - 1);
+        System.out.println(player.getName() + "카드: " + deck + " = 결과: " + player.getSum());
+    }
 }

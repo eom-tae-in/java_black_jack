@@ -14,6 +14,13 @@ public class OutputView {
         System.out.println("딜러는 16이하라 한장의 카드를 더 받았습니다.");
     }
 
+    public void printParticipantDeck(Dealer dealer, Players players) {
+        printDealerDeck(dealer);
+        for (Player player : players.getPlayers()) {
+            printPlayerDeck(player);
+        }
+    }
+
     private void printDealerDeck(Dealer dealer) {
         String deck = dealer.getDeck().toString();
         deck = deck.substring(1, deck.length() - 1);

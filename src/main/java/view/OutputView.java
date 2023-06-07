@@ -42,4 +42,11 @@ public class OutputView {
         }
         return winNumber + "승 ";
     }
+
+    private String printDrew(int drewNumber) {
+        if (drewNumber == 0) {
+            return " ";
+        }
+        return "무 ";
+    }
 }

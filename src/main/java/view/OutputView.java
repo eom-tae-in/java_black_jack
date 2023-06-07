@@ -49,4 +49,11 @@ public class OutputView {
         }
         return "무 ";
     }
+
+    private String printLose(int loseNumber) {
+        if (loseNumber == 0) {
+            return " ";
+        }
+        return "패 ";
+    }
 }

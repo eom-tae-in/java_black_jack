@@ -36,6 +36,13 @@ public class OutputView {
         System.out.println(player.getName() + "카드: " + deck + " = 결과: " + player.getSum());
     }
 
+    public void printParticipantResult(Dealer dealer, Players players) {
+        printDealerResult(dealer);
+        for (Player player : players.getPlayers()) {
+            printPlayerResult(player);
+        }
+    }
+
     private void printDealerResult(Dealer dealer) {
         sb = new StringBuilder();
         Result result = dealer.getResult();

@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.List;
+
 public class Dealer {
 
     private static final int BLACK_JACK = 21;
@@ -40,5 +42,17 @@ public class Dealer {
 
     public void lose() {
         participant.addLose();
+    }
+
+    public List<Card> getDeck() {
+        return participant.getUserDeck();
+    }
+
+    public String getName() {
+        return participant.getName();
+    }
+
+    public Result getResult() {
+        return participant.getResult();
     }
 }

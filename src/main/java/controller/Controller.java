@@ -1,96 +1,117 @@
 package controller;
 
-import domain.*;
+import domain.CardDeck;
+import domain.Referee;
+import domain.Player;
+import domain.Players;
+import domain.Dealer;
+import domain.Answer;
+import dto.ResultDto;
+import domain.ParticipantDeck;
+import domain.Name;
 import view.InputView;
 import view.OutputView;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Controller {
 
-    private final CardDeck cardDeck = new CardDeck();
-    private final InputView inputView = new InputView();
-    private final OutputView outputView = new OutputView();
+    private final InputView inputView;
+    private final OutputView outputView;
+    private final CardDeck cardDeck;
+    private final Referee referee;
 
-    private static final int DEALER_WIN = 1;
-    private static final int DREW = 0;
-    private static final int PLAYER_WIN = -1;
+    private static final String DEALER = "딜러";
+    private static final int INITIAL_VALUE = 0;
 
+    public Controller(InputView inputView, OutputView outputView, CardDeck cardDeck, Referee referee) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+        this.cardDeck = cardDeck;
+        this.referee = referee;
+    }
 
     public void start() {
-        Players players = new Players();
-        Dealer dealer = new Dealer(Participant.Dealer(new UserDeck(), cardDeck));
-        outputView.AskName();
-        String[] names = inputView.getName();
-        cardDeck.ready();
-        for (String name : names) {
-            players.add(new Player(new Participant(new Name(name), new UserDeck(), cardDeck)));
-        }
+        Players players = getPlayers();
+        Dealer dealer = getDealer();
         firstDraw(dealer, players);
+        showFirstDeck(dealer, players);
+        getMoreCard(dealer, players);
+        showDeckWithSum(dealer, players);
+        decideResult(dealer, players);
+        showResult(dealer, players);
+    }
+
+    public Dealer getDealer() {
+        return new Dealer(new Name(DEALER), new ResultDto(INITIAL_VALUE, INITIAL_VALUE, INITIAL_VALUE), new ParticipantDeck());
+    }
+
+    public Players getPlayers() {
+        outputView.askName();
+        String[] playerNames = inputView.getName();
+        ArrayList<Player> players = new ArrayList<>();
+        Arrays.stream(playerNames).forEach(player -> players.add(new Player(new Name(player),
+                new ResultDto(INITIAL_VALUE, INITIAL_VALUE, INITIAL_VALUE), new ParticipantDeck())));
+        return new Players(players);
+    }
+
+    public void firstDraw(Dealer dealer, Players players) {
+        dealer.drawCard(cardDeck.draw());
+        dealer.drawCard(cardDeck.draw());
+        for (Player player : players.getPlayers()) {
+            player.drawCard(cardDeck.draw());
+            player.drawCard(cardDeck.draw());
+        }
+    }
+
+    public void showFirstDeck(Dealer dealer, Players players) {
+        outputView.printFirstDeck(dealer, players);
+    }
+
+    public void getMoreCard(Dealer dealer, Players players) {
+        getPlayersMoreCard(players);
+        getDealerMoreCard(dealer);
+    }
+
+    public void getPlayersMoreCard(Players players) {
         for (Player player : players.getPlayers()) {
             checkMoreCard(player);
         }
+    }
+
+
+    public void checkMoreCard(Player player) {
+        askGetMore(player);
+        while (Answer.isYes(player.getAnswer())) {
+            player.drawCard(cardDeck.draw());
+            outputView.printPlayerDeck(player);
+            askGetMore(player);
+        }
+    }
+
+    private void askGetMore(Player player) {
+        outputView.askMore(player.getName());
+        player.setAnswer(inputView.getMore());
+    }
+
+    public void getDealerMoreCard(Dealer dealer) {
         while (dealer.isMoreCard()) {
             outputView.printDealerDrew();
-            dealer.drawCard();
+            dealer.drawCard(cardDeck.draw());
         }
-        outputView.printParticipantDeck(dealer, players);
+    }
+
+    public void showDeckWithSum(Dealer dealer, Players players) {
+        outputView.printTotalDeck(dealer, players);
+    }
+
+    public void decideResult(Dealer dealer, Players players) {
         for (Player player : players.getPlayers()) {
-            gameResult(dealer, player);
-        }
-        outputView.printParticipantResult(dealer, players);
-    }
-
-    void firstDraw(Dealer dealer, Players players) {
-        dealer.getCard(cardDeck.drawFirst());
-        for (Player player : players.getPlayers()) {
-            player.getCard(cardDeck.drawFirst());
+            referee.decideResult(player, dealer);
         }
     }
 
-    void checkMoreCard(Player player) {
-        String result = "";
-        do {
-            outputView.AskMore(player);
-            result = inputView.getMore();
-            player.drawCard(result);
-        } while (result.equals("y"));
-    }
-
-    void gameResult(Dealer dealer, Player player) {
-        int result = compareNumber(dealer.getSum(), player.getSum());
-        if (result == DEALER_WIN) {
-            dealerWin(dealer, player);
-            return;
-        }
-        if (result == PLAYER_WIN) {
-            playerWin(dealer, player);
-            return;
-        }
-        drew(dealer, player);
-    }
-
-    int compareNumber(int dealerSum, int playerSum) {
-        // return Integer.compare(dealerSum, playerSum);로 바꿀 수 있음
-        if ((dealerSum > playerSum && dealerSum <= 21) || playerSum > 21) {
-            return DEALER_WIN;
-        }
-        if ((dealerSum < playerSum && playerSum <= 21) || dealerSum > 21) {
-            return PLAYER_WIN;
-        }
-        return DREW;
-    }
-
-    void dealerWin(Dealer dealer, Player player) {
-        dealer.win();
-        player.lose();
-    }
-
-    void drew(Dealer dealer, Player player) {
-        dealer.drew();
-        player.drew();
-    }
-
-    void playerWin(Dealer dealer, Player player) {
-        dealer.lose();
-        player.win();
+    public void showResult(Dealer dealer, Players players) {
+        outputView.printResult(dealer, players);
     }
 }

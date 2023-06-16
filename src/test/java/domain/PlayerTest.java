@@ -1,49 +1,28 @@
 package domain;
 
-import org.assertj.core.api.Assertions;
+import dto.ResultDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PlayerTest {
 
-    @Test
-    @DisplayName("플레이어가 카드를 한장 더 받기를 원할 경우 카드 한장을 더 받는다.")
-    void DrawMoreCard() {
-        //given
-        CardDeck cardDeck = new CardDeck();
-        cardDeck.ready();
-        UserDeck userDeck = new UserDeck();
-        DrawCardDto drawCardDto = new DrawCardDto(new Card(new Shape("스페이드"), new Value("6", 6)),
-                new Card(new Shape("하트"), new Value("4", 4)));
-        Player player = new Player(new Participant(new Name("apple"), userDeck, cardDeck));
-        userDeck.add(drawCardDto);
-        String answer = "y";
+    private Player player;
 
-        //when
-        player.drawCard(answer);
-
-        //then
-        assertThat(userDeck.getCards().size()).isEqualTo(3);
+    @BeforeEach
+    void initData() {
+        player = new Player(new Name("test"), new ResultDto(0, 0, 0), new ParticipantDeck());
     }
 
     @Test
-    @DisplayName("플레이어의 숫자의 합이 21이 넘는 경우 게임에서 지게 된다.")
-    void GameOver() {
-        //given
-        CardDeck cardDeck = new CardDeck();
-        cardDeck.ready();
-        UserDeck userDeck = new UserDeck();
-        userDeck.add(new DrawCardDto(new Card(new Shape("하트"), new Value("J", 10))));
-        userDeck.add(new DrawCardDto(new Card(new Shape("스페이드"), new Value("Q", 10))));
-        userDeck.add(new DrawCardDto(new Card(new Shape("클로버"), new Value("K", 10))));
-        Player player = new Player(new Participant(new Name("apple"), userDeck, cardDeck));
-
+    @DisplayName("플레이어가 입력한 결과를 Player 필드인 answer에 넣는 기능을 하는 setter와 이를 반환하는 getter를 검증한다.")
+    void setAnswerTest() {
         //when
-        boolean result = player.isGameOver();
+        player.setAnswer(new Answer("test"));
+        String answer = player.getAnswer();
 
         //then
-        assertThat(result).isTrue();
+        assertThat(answer).isEqualTo("test");
     }
 }

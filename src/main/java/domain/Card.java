@@ -2,6 +2,8 @@ package domain;
 
 public class Card {
 
+    private static final String ACE = "A";
+
     private final Shape shape;
     private final Value value;
 
@@ -10,19 +12,19 @@ public class Card {
         this.value = value;
     }
 
-    public String getShape() {
-        return shape.getShape();
+    public int getNumber() {
+        return value.getNumber();
     }
 
     public String getValue() {
         return value.getValue();
     }
 
-    public int getNumber() {
-        return value.getNumber();
+    public String getValueAndShape() {
+        return getValue() + shape.getShape();
     }
 
-    public int getOtherNumber() {
-        return value.getOtherNumber();
+    public boolean isAce(final String value) {
+        return value.equals(ACE);
     }
 }

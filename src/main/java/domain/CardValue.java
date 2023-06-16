@@ -14,7 +14,7 @@ public enum CardValue {
     JACK(new Value("J", 10)),
     QUEEN(new Value("Q", 10)),
     KING(new Value("K", 10)),
-    ACE(new Value("A", 1, 11));
+    ACE(new Value("A", 1));
 
     private final Value value;
 

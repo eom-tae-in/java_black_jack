@@ -1,28 +1,35 @@
 package view;
 
+import domain.Answer;
 import exception.WrongInputException;
-
 import java.util.Scanner;
 
 public class InputView {
 
-    private Scanner sc = new Scanner(System.in);
-    private final Validation validation = new Validation();
+    private static final String COMMA = ",";
+
+    private final Scanner input;
+    private final Validation validation;
+
+    public InputView() {
+        this.input = new Scanner(System.in);
+        this.validation = new Validation();
+    }
 
     public String[] getName() {
         try {
-            String name = sc.nextLine();
-            return name.split(",");
+            String name = input.nextLine();
+            return name.split(COMMA);
         } catch (RuntimeException e) {
             return getName();
         }
     }
 
-    public String getMore() {
+    public Answer getMore() {
         try {
-            String answer = sc.next();
+            String answer = input.next();
             validation.checkGetMoreInput(answer);
-            return answer;
+            return new Answer(answer);
         } catch (WrongInputException e) {
             return getMore();
         }

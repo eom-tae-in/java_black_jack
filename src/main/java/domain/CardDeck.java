@@ -1,17 +1,33 @@
 package domain;
 
-import java.util.*;
-import java.util.stream.IntStream;
+import exception.EmptyCardDeckException;
+
+import java.util.Queue;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Arrays;
 
 public class CardDeck {
 
-    private final Queue<Card> cardDeck = new LinkedList<>();
+    private final Queue<Card> cardDeck;
+
+    public CardDeck(Queue<Card> cardDeck) {
+        this.cardDeck = cardDeck;
+    }
+
+    //테스트 추가
+    public static CardDeck create() {
+        ArrayList<Card> cards = generate();
+        Collections.shuffle(cards);
+        return new CardDeck(new LinkedList<>(cards));
+    }
 
     public Queue<Card> getCardDeck() {
         return cardDeck;
     }
 
-     ArrayList<Card> generate() {
+    private static ArrayList<Card> generate() {
         ArrayList<Card> cards = new ArrayList<>();
         Arrays.stream(CardShape.values())
                 .forEach(cardShape -> Arrays.stream(CardValue.values())
@@ -19,17 +35,10 @@ public class CardDeck {
         return cards;
     }
 
-    public void ready() {
-        ArrayList<Card> generatedDeck = generate();
-        Collections.shuffle(generatedDeck);
-        cardDeck.addAll(generatedDeck);
-    }
-
-    public DrawCardDto drawFirst() {
-        return new DrawCardDto(cardDeck.poll(), cardDeck.poll());
-    }
-
-    public DrawCardDto draw() {
-        return new DrawCardDto(cardDeck.poll());
+    public Card draw() {
+        if (cardDeck.isEmpty()) {
+            throw new EmptyCardDeckException("더 이상 뽑을 카드가 없습니다.");
+        }
+        return cardDeck.poll();
     }
 }

@@ -1,56 +1,35 @@
 package domain;
 
-import java.util.List;
+import dto.ResultDto;
 
-public class Player {
+public class Player extends Participant {
+    private static final int NEVER = 0;
+    private static final String WIN = "승";
+    private static final String DREW = "무";
+    private static final String LOSE = "패";
 
-    private static final int BLACK_JACK = 21;
+    private Answer answer;
 
-    private final Participant participant;
-
-    public Player(Participant participant) {
-        this.participant = participant;
+    public Player(Name name, ResultDto resultDto, ParticipantDeck participantDeck) {
+        super(name, resultDto, participantDeck);
     }
 
-    public void drawCard(String answer) {
-        if (answer.equals("y")) {
-            participant.add(participant.getDraw());
+    public void setAnswer(Answer answer) {
+        this.answer = answer;
+    }
+
+    public String getAnswer() {
+        return answer.getAnswer();
+    }
+
+    @Override
+    public String getResult() {
+        if (super.getWin() != NEVER) {
+            return WIN;
         }
-    }
-
-    public boolean isGameOver() {
-        return participant.getCalculateSum() > BLACK_JACK;
-    }
-
-    public void getCard(DrawCardDto drawCardDto) {
-        participant.add(drawCardDto);
-    }
-
-    public String getName() {
-        return participant.getName();
-    }
-
-    public int getSum() {
-        return participant.getSum();
-    }
-
-    public void win() {
-        participant.addWin();
-    }
-
-    public void drew() {
-        participant.addDrew();
-    }
-
-    public void lose() {
-        participant.addLose();
-    }
-
-    public List<Card> getDeck() {
-        return participant.getUserDeck();
-    }
-
-    public Result getResult() {
-        return participant.getResult();
+        if (super.getLose() != NEVER) {
+            return LOSE;
+        }
+        return DREW;
     }
 }

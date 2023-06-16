@@ -1,6 +1,7 @@
 package domain;
 
-import org.assertj.core.api.Assertions;
+import dto.ResultDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -8,40 +9,54 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class DealerTest {
 
-    @Test
-    @DisplayName("딜러의 카드들의 숫자 합이 16이하면 한 장을 더 받는다.")
-    void DrawMoreCard() {
-        //given
-        CardDeck cardDeck = new CardDeck();
-        cardDeck.ready();
-        UserDeck userDeck = new UserDeck();
-        Dealer dealer = new Dealer(new Participant(new Name("apple"), userDeck, cardDeck));
-        userDeck.add(new DrawCardDto(new Card(new Shape("하트"), new Value("6", 6))));
-        userDeck.add(new DrawCardDto(new Card(new Shape("클로버"), new Value("7", 7))));
+    private Dealer dealer;
 
-        //when
-        dealer.drawCard();
-
-        //then
-        assertThat(userDeck.getCards().size()).isEqualTo(3);
+    @BeforeEach
+    void initData() {
+        dealer = new Dealer(new Name("딜러"), new ResultDto(0, 0, 0), new ParticipantDeck());
     }
 
     @Test
-    @DisplayName("딜러의 숫자의 합이 21이 넘는 경우 게임에서 지게 된다.")
-    void GameOver() {
+    @DisplayName("딜러의 카드 숫자 합이 16이하면 true를 반환한다.")
+    void isMoreCardTest_True() {
         //given
-        CardDeck cardDeck = new CardDeck();
-        cardDeck.ready();
-        UserDeck userDeck = new UserDeck();
-        userDeck.add(new DrawCardDto(new Card(new Shape("다이아몬드"), new Value("J",10))));
-        userDeck.add(new DrawCardDto(new Card(new Shape("다이아몬드"), new Value("Q",10))));
-        userDeck.add(new DrawCardDto(new Card(new Shape("다이아몬드"), new Value("K",10))));
-        Dealer dealer = new Dealer(new Participant(new Name("apple"), userDeck, cardDeck));
+        dealer.drawCard(new Card(new Shape("다이아몬드"), new Value("6", 6)));
+        dealer.drawCard(new Card(new Shape("다이아몬드"), new Value("8", 8)));
 
         //when
-        boolean result = dealer.isGameOver();
+        boolean result = dealer.isMoreCard();
 
         //then
         assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("딜러의 카드 숫자 합이 17이상이면 false를 반환한다.")
+    void isMOreCardTest_False() {
+        //given
+        dealer.drawCard(new Card(new Shape("다이아몬드"), new Value("J", 10)));
+        dealer.drawCard(new Card(new Shape("다이아몬드"), new Value("K", 10)));
+
+        //when
+        boolean result = dealer.isMoreCard();
+
+        //then
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("딜러의 카드 중 가장 먼저 뽑은 한 장의 카드만 반환한다.")
+    void showOnlyOneTest() {
+        //given
+        dealer.drawCard(new Card(new Shape("다이아몬드"), new Value("4", 4)));
+        dealer.drawCard(new Card(new Shape("하트"), new Value("9", 9)));
+
+        //when
+        Card card = dealer.showOnlyOne();
+
+        //then
+        assertThat(card.getNumber()).isEqualTo(4);
+        assertThat(card.getValue()).isEqualTo("4");
+        assertThat(card.getValueAndShape()).isEqualTo("4다이아몬드");
     }
 }

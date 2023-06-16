@@ -1,58 +1,40 @@
 package domain;
 
-import java.util.List;
+import dto.ResultDto;
 
-public class Dealer {
+public class Dealer extends Participant{
 
-    private static final int BLACK_JACK = 21;
+    private static final int DEALER_MINIMUM_NUMBER = 16;
+    private static final int NEVER = 0;
+    private static final String WIN = "승";
+    private static final String DREW = "무";
+    private static final String LOSE = "패";
 
-    private final Participant participant;
 
-    public Dealer(Participant participant) {
-        this.participant = participant;
+    public Dealer(Name name, ResultDto resultDto, ParticipantDeck participantDeck) {
+        super(name, resultDto, participantDeck);
     }
 
-    public void drawCard() {
-        participant.add(participant.getDraw());
+    @Override
+    public String getResult() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (super.getWin() != NEVER) {
+            stringBuilder.append(super.getWin() + WIN + " ");
+        }
+        if (super.getDrew() != NEVER) {
+            stringBuilder.append(super.getDrew() + DREW + " ");
+        }
+        if (super.getLose() != NEVER) {
+            stringBuilder.append(super.getLose() + LOSE);
+        }
+        return String.valueOf(stringBuilder);
     }
 
     public boolean isMoreCard() {
-        return participant.getSum() <= 16;
+        return super.getSum() <= DEALER_MINIMUM_NUMBER;
     }
 
-    public boolean isGameOver() {
-        return participant.getCalculateSum() > BLACK_JACK;
-    }
-
-    public void getCard(DrawCardDto drawCardDto) {
-        participant.add(drawCardDto);
-    }
-
-    public int getSum() {
-        return participant.getSum();
-    }
-
-    public void win() {
-        participant.addWin();
-    }
-
-    public void drew() {
-        participant.addDrew();
-    }
-
-    public void lose() {
-        participant.addLose();
-    }
-
-    public List<Card> getDeck() {
-        return participant.getUserDeck();
-    }
-
-    public String getName() {
-        return participant.getName();
-    }
-
-    public Result getResult() {
-        return participant.getResult();
+    public Card showOnlyOne() {
+        return super.getDeck().get(0);
     }
 }

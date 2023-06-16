@@ -1,62 +1,60 @@
 package domain;
 
-import java.util.List;
-import java.util.Objects;
+import dto.ResultDto;
 
-public class Participant {
+import java.util.List;
+
+public abstract class Participant {
 
     private final Name name;
-    private final UserDeck userDeck;
-    private final CardDeck cardDeck;
-    private final Result result = new Result(0, 0, 0);
+    private final ResultDto resultDto;
+    private final ParticipantDeck participantDeck;
 
-    public Participant(Name name, UserDeck userDeck, CardDeck cardDeck) {
+    public Participant(Name name, ResultDto resultDto, ParticipantDeck participantDeck) {
         this.name = name;
-        this.userDeck = userDeck;
-        this.cardDeck = cardDeck;
+        this.resultDto = resultDto;
+        this.participantDeck = participantDeck;
     }
 
-    public static Participant Dealer(UserDeck userDeck, CardDeck cardDeck) {
-        return new Participant(new Name("딜러"), userDeck, cardDeck);
+    public void drawCard(Card card) {
+        participantDeck.add(card);
     }
-
-    public int getSum() {
-        return this.userDeck.sum();
-    }
-
-    public void add(DrawCardDto drawCardDto) {
-        this.userDeck.add(drawCardDto);
-    }
-
-    public DrawCardDto getDraw() {
-        return this.cardDeck.draw();
-    }
-
-    public int getCalculateSum() {
-        return this.userDeck.calculateSum();
-    }
-
     public String getName() {
         return name.getName();
     }
 
-    public void addWin() {
-        this.result.addWin();
+    public int getSum() {
+        return participantDeck.sum();
     }
 
-    public void addDrew() {
-        this.result.addDrew();
+    public int getWin() {
+        return resultDto.getWin();
     }
 
-    public void addLose() {
-        this.result.addLose();
+    public int getDrew() {
+        return resultDto.getDrew();
     }
 
-    public List<Card> getUserDeck() {
-        return this.userDeck.getCards();
+    public int getLose() {
+        return resultDto.getLose();
     }
 
-    public Result getResult() {
-        return this.result;
+    public void win() {
+        resultDto.addWin();
     }
+
+    public void drew() {
+        resultDto.addDrew();
+    }
+
+    public void lose() {
+        resultDto.addLose();
+    }
+
+    public List<Card> getDeck() {
+        return participantDeck.getCards();
+    }
+
+
+    abstract public String getResult();
 }

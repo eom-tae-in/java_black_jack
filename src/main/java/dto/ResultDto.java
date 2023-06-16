@@ -1,12 +1,12 @@
-package domain;
+package dto;
 
-public class Result {
+public class ResultDto {
 
     private int win;
     private int drew;
     private int lose;
 
-    public Result(int win, int drew, int lose) {
+    public ResultDto(int win, int drew, int lose) {
         this.win = win;
         this.drew = drew;
         this.lose = lose;

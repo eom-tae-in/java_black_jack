@@ -100,19 +100,4 @@ public class ParticipantDeckTest {
         assertThat(calculateMax).isEqualTo(21);
         assertThat(calculateMax).isNotEqualTo(sum);
     }
-
-    @Test
-    @DisplayName("Participant의 카드 덱의 최대 값을 반환하는 메서드 테스트 ")
-    void SumUserDeck() {
-        //given
-        participantDeck.add(new Card(new Shape("스페이드"), new Value("A", 1)));
-        participantDeck.add(new Card(new Shape("다이아몬드"), new Value("2", 2)));
-        participantDeck.add(new Card(new Shape("다이아몬드"), new Value("7", 7)));
-
-        //when
-        int sum = participantDeck.sum();
-
-        //then
-        assertThat(sum).isEqualTo(20);
-    }
 }

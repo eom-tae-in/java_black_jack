@@ -1,12 +1,20 @@
 package view;
 
-import domain.Player;
-import domain.Dealer;
-import domain.Players;
+import dto.DeckAndSumResponseDto;
+import dto.DeckResponseDto;
+import dto.OnlyOneCardResponseDto;
+import dto.ResultResponseDto;
 import java.util.ArrayList;
 import static org.apache.commons.lang3.StringUtils.join;
 
 public class OutputView {
+
+    private static final String COMMA = ", ";
+    private static final String COLONS = ": ";
+    private static final String HYPHEN = " -";
+    private static final String CARD = " 카드";
+    private static final String RESULT = " 결과 ";
+    private static final String RESULT_PHASE = "## 최종 승패";
 
     public void askName() {
         System.out.println("게임에 참여할 사람의 이름을 입력하세요.(쉽표 기준으로 분리)");
@@ -20,58 +28,35 @@ public class OutputView {
         System.out.println("딜러는 16이하라 한장의 카드를 더 받았습니다.");
     }
 
-    public void printFirstDeck(Dealer dealer, Players players) {
-        String playersName = players.getPlayersName();
-        System.out.println(dealer.getName() + "와 " + playersName + "에게 2장을 나누었습니다.");
-        printDealerFirstDeck(dealer);
-        for (Player player : players.getPlayers()) {
-            printPlayerDeck(player);
-        }
+    public void printOnlyOneCard(OnlyOneCardResponseDto onlyOneCardResponseDto) {
+        System.out.println(onlyOneCardResponseDto.getName() + COLONS + onlyOneCardResponseDto.getValue());
     }
 
-    private void printDealerFirstDeck(Dealer dealer) {
-        System.out.println(dealer.getName() + ": " + dealer.showOnlyOne().getValueAndShape());
-    }
-
-    public void printPlayerDeck(Player player) {
+    public void printDeck(DeckResponseDto deckResponseDto) {
         ArrayList<String> playerCards = new ArrayList<>();
-        player.getDeck().forEach(card -> playerCards.add(card.getValueAndShape()));
-        System.out.println(player.getName() + ": " + join(playerCards, ","));
+        deckResponseDto.getDeck().forEach(card -> playerCards.add(card.getValueAndShape()));
+        System.out.println(deckResponseDto.getName() + COLONS + join(playerCards, COMMA));
     }
 
 
-    public void printTotalDeck(Dealer dealer, Players players) {
-        printDealerDeckWithSum(dealer);
-        for (Player player : players.getPlayers()) {
-            printPlayerDeckWithSum(player);
-        }
-    }
 
-    private void printDealerDeckWithSum(Dealer dealer) {
+    public void printDeckAndSum(DeckAndSumResponseDto deckAndSumResponseDto) {
         ArrayList<String> dealerCards = new ArrayList<>();
-        dealer.getDeck().forEach(card -> dealerCards.add(card.getValueAndShape()));
-        System.out.println(dealer.getName() + " 카드: " + join(dealerCards, ", ") + " - 결과 : " + dealer.getSum());
+        deckAndSumResponseDto.getDeck().forEach(card -> dealerCards.add(card.getValueAndShape()));
+        System.out.println(deckAndSumResponseDto.getName() + CARD + COLONS + join(dealerCards, COMMA)
+                + HYPHEN + RESULT + COLONS + deckAndSumResponseDto.getSum());
     }
 
-    private void printPlayerDeckWithSum(Player player) {
-        ArrayList<String> playerCards = new ArrayList<>();
-        player.getDeck().forEach(card -> playerCards.add(card.getValueAndShape()));
-        System.out.println(player.getName() + "카드: " + join(playerCards, ", ") + " - 결과: " + player.getSum());
+
+    public void printResult(ResultResponseDto resultResponseDto) {
+        System.out.println(resultResponseDto.getName() + COLONS + resultResponseDto.getResult());
     }
 
-    public void printResult(Dealer dealer, Players players) {
-        System.out.println("## 최종 승패");
-        printDealerResult(dealer);
-        for (Player player : players.getPlayers()) {
-            printPlayerResult(player);
-        }
+    public void printResultPhase() {
+        System.out.println(RESULT_PHASE);
     }
 
-    private void printDealerResult(Dealer dealer) {
-        System.out.println(dealer.getName() + ": " + dealer.getResult());
-    }
-
-    private void printPlayerResult(Player player) {
-        System.out.println(player.getName() + ": " + player.getResult());
+    public void printOneLineJump() {
+        System.out.println();
     }
 }

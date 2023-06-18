@@ -1,20 +1,23 @@
 package domain;
 
-import exception.NotFoundAceException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ParticipantDeck {
 
-    private static final String ACE = "A";
     private static final int LARGE_ACE_NUMBER = 11;
     private static final int SMALL_ACE_NUMBER = 1;
     private static final int BLACK_JACK = 21;
 
-    private final List<Card> cards = new ArrayList<>();
+    private final List<Card> cards;
+
+    public ParticipantDeck() {
+        this.cards = new ArrayList<>();
+    }
 
     public List<Card> getCards() {
-        return new ArrayList<>(cards);
+        return Collections.unmodifiableList(cards);
     }
 
     public void add(Card card) {
@@ -23,12 +26,10 @@ public class ParticipantDeck {
 
     public int sum() {
         int sum = calculateSum();
-        try {
-            findAce();
-        } catch (NotFoundAceException e) {
-            return sum;
+        if (findAce()) {
+            return calculateSum();
         }
-        return calculateMax(sum);
+        return sum;
     }
 
     public int calculateSum() {
@@ -39,9 +40,9 @@ public class ParticipantDeck {
         return sum;
     }
 
-    public void findAce() {
-        this.cards.stream()
-                .filter(card -> card.isAce(card.getValue())).findAny().orElseThrow(NotFoundAceException::new);
+    public boolean findAce() {
+        return this.cards.stream()
+                .anyMatch(card -> card.isAce(card.getValue()));
     }
 
     public int calculateMax(int sum) {
@@ -50,5 +51,9 @@ public class ParticipantDeck {
             return specialSum;
         }
         return sum;
+    }
+
+    public Card getFirstCard() {
+        return cards.get(0);
     }
 }

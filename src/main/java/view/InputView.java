@@ -1,6 +1,7 @@
 package view;
 
 import domain.Answer;
+import dto.PlayerNameRequestDto;
 import exception.WrongInputException;
 import java.util.Scanner;
 
@@ -9,28 +10,29 @@ public class InputView {
     private static final String COMMA = ",";
 
     private final Scanner input;
-    private final Validation validation;
 
     public InputView() {
         this.input = new Scanner(System.in);
-        this.validation = new Validation();
     }
 
     public String[] getName() {
         try {
             String name = input.nextLine();
+            Answer.validation(name);
             return name.split(COMMA);
-        } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
             return getName();
         }
     }
 
-    public Answer getMore() {
+    public String getMore() {
         try {
             String answer = input.next();
-            validation.checkGetMoreInput(answer);
-            return new Answer(answer);
+            Answer.checkYesOrNo(answer);
+            return answer;
         } catch (WrongInputException e) {
+            System.out.println(e.getMessage());
             return getMore();
         }
     }

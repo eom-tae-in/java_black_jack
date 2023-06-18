@@ -1,19 +1,19 @@
 package domain;
 
+import dto.RefereeResultResponseDto;
+
 public class Referee {
 
     private static final int BLACK_JACK = 21;
 
-    public void decideResult(Player player, Dealer dealer) {
-        if (isPlayerWin(player.getSum(), dealer.getSum())) {
-            playerWin(player, dealer);
-            return;
+    public RefereeResultResponseDto decideResult(int dealerSum, int playerSum) {
+        if (isPlayerWin(playerSum, dealerSum)) {
+            return playerWin();
         }
-        if (isDealerWin(player.getSum(), dealer.getSum())) {
-            dealerWin(player, dealer);
-            return;
+        if (isDealerWin(playerSum, dealerSum)) {
+            return dealerWin();
         }
-        drew(player, dealer);
+        return draw();
     }
 
     private boolean isPlayerWin(int playerSum, int dealerSum) {
@@ -23,18 +23,16 @@ public class Referee {
     private boolean isDealerWin(int playerSum, int dealerSum) {
         return playerSum < dealerSum || playerSum > BLACK_JACK;
     }
-    private void playerWin(Player player, Dealer dealer) {
-        player.win();
-        dealer.lose();
+
+    private RefereeResultResponseDto playerWin() {
+        return new RefereeResultResponseDto(Result.WIN, Result.LOSE);
     }
 
-    private void dealerWin(Player player, Dealer dealer) {
-        dealer.win();
-        player.lose();
+    private RefereeResultResponseDto dealerWin() {
+        return new RefereeResultResponseDto(Result.LOSE, Result.WIN);
     }
 
-    private void drew(Player player, Dealer dealer) {
-        dealer.drew();
-        player.drew();
+    private RefereeResultResponseDto draw() {
+        return new RefereeResultResponseDto(Result.DRAW, Result.DRAW);
     }
 }

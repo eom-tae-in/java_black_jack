@@ -14,7 +14,7 @@ public abstract class Participant {
         this.participantDeck = participantDeck;
     }
 
-    public void drawCard(Card card) {
+    public void getCard(final Card card) {
         participantDeck.add(card);
     }
 
@@ -30,14 +30,10 @@ public abstract class Participant {
         return participantDeck.getCards();
     }
 
-    public Card getFirstCard() {
-        return participantDeck.getFirstCard();
-    }
-
     public boolean isGameOver() {
         return participantDeck.sum() > BLACK_JACK;
     }
 
-    abstract public void addResult(Result result);
+    abstract public void addResult(final Result result);
     abstract public String getResult();
 }

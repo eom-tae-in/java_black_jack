@@ -1,13 +1,15 @@
 package domain;
 
-import exception.NotFoundAceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.assertThatCode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 
 public class ParticipantDeckTest {
 
@@ -19,8 +21,24 @@ public class ParticipantDeckTest {
     }
 
     @Test
-    @DisplayName("Participant가 카드를 받으면 카드 덱에 받은 카드가 저장시키는 메서드 테스트")
-    void addTest() {
+    @DisplayName("참가자의 카드들을 반환한다.")
+    void check_return_participant_cards() {
+        //given
+        participantDeck.add(new Card(new Shape("다이아몬드"), new Value("6", 6)));
+
+        //when
+        List<Card> cards = participantDeck.getCards();
+
+        //then
+        assertThat(cards.size()).isEqualTo(1);
+        assertThat(cards.get(0).getNumber()).isEqualTo(6);
+        assertThat(cards.get(0).getValue()).isEqualTo("6");
+        assertThat(cards.get(0).getValueAndShape()).isEqualTo("6다이아몬드");
+    }
+
+    @Test
+    @DisplayName("카드를 받으면 참가자의 카드 덱에 받은 카드가 저장된다.")
+    void add_card_to_participant_deck() {
         //when
         participantDeck.add(new Card(new Shape("스페이드"), new Value("K", 10)));
 
@@ -31,73 +49,43 @@ public class ParticipantDeckTest {
         assertThat(participantDeck.getCards().get(0).getValueAndShape()).isEqualTo("K스페이드");
     }
 
-    @Test
-    @DisplayName("Participant가 뽑은 카드들의 합을 계산하여 반환하는 메서드 테스트")
-    void calculateSumTest() {
+    @ParameterizedTest
+    @DisplayName("참가자의 카드들의 합을 계산한다. A가 존재하는 경우 A를 1, 11로 계산한 결과를 비교하여 21보다 작은 더 큰 값을 반환한다.")
+    @MethodSource("participantDeckProvider")
+    void calculate_sum_exclude_special_value(List<Card> cards, int expectedSum) {
         //given
-        participantDeck.add(new Card(new Shape("스페이드"), new Value("K", 10)));
-        participantDeck.add(new Card(new Shape("하트"), new Value("Q", 10)));
-        participantDeck.add(new Card(new Shape("다이아몬드"), new Value("J", 10)));
+        IntStream.range(0, cards.size()).forEach(i -> {
+            participantDeck.add(cards.get(i));
+        });
 
         //when
-        int sum = participantDeck.calculateSum();
+        int sum = participantDeck.sum();
 
         //then
-        assertThat(sum).isEqualTo(30);
+        assertThat(sum).isEqualTo(expectedSum);
     }
 
-    @Test
-    @DisplayName("Participant의 카드 덱에 Ace가 존재하면 아무런 예외도 발생하지 않는다.")
-    void findAceTest_Success() {
-        //given
-        participantDeck.add(new Card(new Shape("클로버"), new Value("7", 7)));
-        participantDeck.add(new Card(new Shape("하트"), new Value("A", 1)));
-
-        //when //then
-        assertThatCode(() -> participantDeck.findAce()).doesNotThrowAnyException();
+    private static Stream<Arguments> participantDeckProvider() {
+        return Stream.of(
+                Arguments.of(calculateAceAsElevenDeck(), 16),
+                Arguments.of(calculateAceAsOneDeck(), 21),
+                Arguments.of(excludeAceDeck(), 13)
+        );
     }
 
-    @Test
-    @DisplayName("Participant의 카드 덱에 Ace가 존재하지 않으면 예외가 발생한다.")
-    void findAceTest_Failure_NotFoundAceCException() {
-        //given
-        participantDeck.add(new Card(new Shape("다이아몬드"), new Value("7", 7)));
-        participantDeck.add(new Card(new Shape("하트"), new Value("Q", 10)));
-
-        //when //then
-        assertThatThrownBy(() -> participantDeck.findAce()).isInstanceOf(NotFoundAceException.class);
+    private static List<Card> calculateAceAsElevenDeck() {
+        return List.of(new Card(new Shape("하트"), new Value("A", 1)),
+                new Card(new Shape("하트"), new Value("5", 5)));
     }
 
-    @Test
-    @DisplayName("카드 덱에 Ace가 있는 경우 작은 값(1)과 큰 값(11)의 경우를 모두 계산하여 합이 21을 넘지 않는 더 큰 값을 반환한다.(작은 값)")
-    void calculateMaxTest_SmallNumber() {
-        //given
-        participantDeck.add(new Card(new Shape("하트"), new Value("Q", 10)));
-        participantDeck.add(new Card(new Shape("클로버"), new Value("7", 7)));
-        participantDeck.add(new Card(new Shape("다이아몬드"), new Value("A", 1)));
-        int sum = participantDeck.calculateSum();
-
-        //when
-        int calculateMaxSum = participantDeck.calculateMax(sum);
-
-        //then
-        assertThat(calculateMaxSum).isEqualTo(sum);
-        assertThat(calculateMaxSum).isEqualTo(18);
+    private static List<Card> calculateAceAsOneDeck() {
+        return List.of(new Card(new Shape("하트"), new Value("A", 1)),
+                new Card(new Shape("하트"), new Value("J", 10)),
+                new Card(new Shape("하트"), new Value("Q", 10)));
     }
 
-    @Test
-    @DisplayName("카드 덱에 Ace가 있는 경우 작은 값(1)과 큰 값(11)의 경우를 모두 계산하여 합이 21을 넘지 않는 더 큰 값을 반환한다.(큰 값)")
-    void calculateMaxTest_LargeNumber() {
-        //given
-        participantDeck.add(new Card(new Shape("하트"), new Value("Q", 10)));
-        participantDeck.add(new Card(new Shape("다이아몬드"), new Value("A", 1)));
-        int sum = participantDeck.calculateSum();
-
-        //when
-        int calculateMax = participantDeck.calculateMax(sum);
-
-        //then
-        assertThat(calculateMax).isEqualTo(21);
-        assertThat(calculateMax).isNotEqualTo(sum);
+    private static List<Card> excludeAceDeck() {
+        return List.of(new Card(new Shape("하트"), new Value("6", 6)),
+                new Card(new Shape("하트"), new Value("7", 7)));
     }
 }

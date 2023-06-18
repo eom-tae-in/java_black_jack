@@ -1,7 +1,7 @@
-package dto;
+package exception;
 
 public class InputEmptyException extends IllegalArgumentException {
-    public InputEmptyException(String message) {
+    public InputEmptyException(final String message) {
         super(message);
     }
 }

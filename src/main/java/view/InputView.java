@@ -1,39 +1,37 @@
 package view;
 
 import domain.Answer;
-import dto.PlayerNameRequestDto;
+import exception.InputBlankException;
+import exception.InputEmptyException;
 import exception.WrongInputException;
+import util.StringValidator;
 import java.util.Scanner;
 
 public class InputView {
 
     private static final String COMMA = ",";
 
-    private final Scanner input;
+    private final static Scanner input = new Scanner(System.in);
 
-    public InputView() {
-        this.input = new Scanner(System.in);
-    }
-
-    public String[] getName() {
+    public static String[] receiveName() {
         try {
             String name = input.nextLine();
-            Answer.validation(name);
+            StringValidator.validation(name);
             return name.split(COMMA);
-        } catch (IllegalArgumentException e) {
+        } catch (InputBlankException | InputEmptyException | NullPointerException e) {
             System.out.println(e.getMessage());
-            return getName();
+            return receiveName();
         }
     }
 
-    public String getMore() {
+    public static String receiveAnswer() {
         try {
             String answer = input.next();
-            Answer.checkYesOrNo(answer);
+            Answer.validation(answer);
             return answer;
-        } catch (WrongInputException e) {
+        } catch (WrongInputException | InputBlankException | InputEmptyException | NullPointerException e) {
             System.out.println(e.getMessage());
-            return getMore();
+            return receiveAnswer();
         }
     }
 }

@@ -16,47 +16,44 @@ public class OutputView {
     private static final String RESULT = " 결과 ";
     private static final String RESULT_PHASE = "## 최종 승패";
 
-    public void askName() {
+    public static void askName() {
         System.out.println("게임에 참여할 사람의 이름을 입력하세요.(쉽표 기준으로 분리)");
     }
 
-    public void askMore(String name) {
+    public static void askGetMoreCard(final String name) {
         System.out.println(name + "는 한장의 카드를 더 받겠습니까?(예는 y, 아니오는 n)");
     }
 
-    public void printDealerDrew() {
+    public static void printDealerDrew() {
         System.out.println("딜러는 16이하라 한장의 카드를 더 받았습니다.");
     }
 
-    public void printOnlyOneCard(OnlyOneCardResponseDto onlyOneCardResponseDto) {
+    public static void printOnlyOneCard(final OnlyOneCardResponseDto onlyOneCardResponseDto) {
         System.out.println(onlyOneCardResponseDto.getName() + COLONS + onlyOneCardResponseDto.getValue());
     }
 
-    public void printDeck(DeckResponseDto deckResponseDto) {
+    public static void printDeck(final DeckResponseDto deckResponseDto) {
         ArrayList<String> playerCards = new ArrayList<>();
         deckResponseDto.getDeck().forEach(card -> playerCards.add(card.getValueAndShape()));
         System.out.println(deckResponseDto.getName() + COLONS + join(playerCards, COMMA));
     }
 
-
-
-    public void printDeckAndSum(DeckAndSumResponseDto deckAndSumResponseDto) {
+    public static void printDeckAndSum(final DeckAndSumResponseDto deckAndSumResponseDto) {
         ArrayList<String> dealerCards = new ArrayList<>();
         deckAndSumResponseDto.getDeck().forEach(card -> dealerCards.add(card.getValueAndShape()));
         System.out.println(deckAndSumResponseDto.getName() + CARD + COLONS + join(dealerCards, COMMA)
                 + HYPHEN + RESULT + COLONS + deckAndSumResponseDto.getSum());
     }
 
-
-    public void printResult(ResultResponseDto resultResponseDto) {
+    public static void printResult(final ResultResponseDto resultResponseDto) {
         System.out.println(resultResponseDto.getName() + COLONS + resultResponseDto.getResult());
     }
 
-    public void printResultPhase() {
+    public static void printResultPhase() {
         System.out.println(RESULT_PHASE);
     }
 
-    public void printOneLineJump() {
+    public static void printOneLineJump() {
         System.out.println();
     }
 }

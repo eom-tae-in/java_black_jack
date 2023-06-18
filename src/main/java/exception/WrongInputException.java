@@ -1,7 +1,7 @@
 package exception;
 
 public class WrongInputException extends IllegalArgumentException {
-    public WrongInputException(String message) {
+    public WrongInputException(final String message) {
         super(message);
     }
 }

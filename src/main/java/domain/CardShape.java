@@ -8,7 +8,7 @@ public enum CardShape {
 
     private final Shape shape;
 
-    CardShape(Shape shape) {
+    CardShape(final Shape shape) {
         this.shape = shape;
     }
 

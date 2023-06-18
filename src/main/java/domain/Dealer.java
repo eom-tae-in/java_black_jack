@@ -1,22 +1,27 @@
 package domain;
 
-import static domain.Result.*;
+import exception.CardDeckEmptyException;
+import static domain.Result.DRAW;
+import static domain.Result.LOSE;
+import static domain.Result.WIN;
 
 public class Dealer extends Participant {
 
     private static final int DEALER_MINIMUM_NUMBER = 16;
     private static final int NEVER = 0;
     private static final String BLANK = " ";
+    private static final int FIRST_CARD_INDEX = 0;
+    private static final String CARD_DECK_IS_EMPTY = "받은 카드가 없습니다.";
 
     private final Results results;
 
 
-    public Dealer(Name name, ParticipantDeck participantDeck, Results results) {
+    public Dealer(final Name name, final ParticipantDeck participantDeck, final Results results) {
         super(name, participantDeck);
         this.results = results;
     }
 
-    public boolean isMoreCard() {
+    public boolean canGetMoreCard() {
         return getSum() <= DEALER_MINIMUM_NUMBER;
     }
 
@@ -24,8 +29,15 @@ public class Dealer extends Participant {
         return getFirstCard().getValueAndShape();
     }
 
+    public Card getFirstCard() {
+        if (getDeck().isEmpty()) {
+            throw new CardDeckEmptyException(CARD_DECK_IS_EMPTY);
+        }
+        return getDeck().get(FIRST_CARD_INDEX);
+    }
+
     @Override
-    public void addResult(Result result) {
+    public void addResult(final Result result) {
         results.addResult(result);
     }
 

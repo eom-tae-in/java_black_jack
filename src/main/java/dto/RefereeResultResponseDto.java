@@ -7,7 +7,7 @@ public class RefereeResultResponseDto {
     private final Result playerResult;
     private final Result dealerResult;
 
-    public RefereeResultResponseDto(Result playerResult, Result dealerResult) {
+    public RefereeResultResponseDto(final Result playerResult, final Result dealerResult) {
         this.playerResult = playerResult;
         this.dealerResult = dealerResult;
     }

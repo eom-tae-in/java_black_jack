@@ -1,12 +1,15 @@
 package domain;
 
 import dto.RefereeResultResponseDto;
+import static domain.Result.DRAW;
+import static domain.Result.LOSE;
+import static domain.Result.WIN;
 
 public class Referee {
 
     private static final int BLACK_JACK = 21;
 
-    public RefereeResultResponseDto decideResult(int dealerSum, int playerSum) {
+    public RefereeResultResponseDto decideResult(final int dealerSum, final int playerSum) {
         if (isPlayerWin(playerSum, dealerSum)) {
             return playerWin();
         }
@@ -16,23 +19,23 @@ public class Referee {
         return draw();
     }
 
-    private boolean isPlayerWin(int playerSum, int dealerSum) {
+    private boolean isPlayerWin(final int playerSum, final int dealerSum) {
         return playerSum > dealerSum || dealerSum > BLACK_JACK;
     }
 
-    private boolean isDealerWin(int playerSum, int dealerSum) {
+    private boolean isDealerWin(final int playerSum, final int dealerSum) {
         return playerSum < dealerSum || playerSum > BLACK_JACK;
     }
 
     private RefereeResultResponseDto playerWin() {
-        return new RefereeResultResponseDto(Result.WIN, Result.LOSE);
+        return new RefereeResultResponseDto(WIN, LOSE);
     }
 
     private RefereeResultResponseDto dealerWin() {
-        return new RefereeResultResponseDto(Result.LOSE, Result.WIN);
+        return new RefereeResultResponseDto(LOSE, WIN);
     }
 
     private RefereeResultResponseDto draw() {
-        return new RefereeResultResponseDto(Result.DRAW, Result.DRAW);
+        return new RefereeResultResponseDto(DRAW, DRAW);
     }
 }

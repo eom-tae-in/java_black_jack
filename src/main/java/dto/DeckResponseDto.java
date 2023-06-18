@@ -2,7 +2,6 @@ package dto;
 
 import domain.Card;
 import domain.Participant;
-
 import java.util.List;
 
 public class DeckResponseDto {
@@ -22,7 +21,7 @@ public class DeckResponseDto {
         return deck;
     }
 
-    public static DeckResponseDto toDto(Participant participant) {
+    public static DeckResponseDto toDto(final Participant participant) {
         return new DeckResponseDto(participant.getName(), participant.getDeck());
     }
 }

@@ -2,11 +2,11 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static domain.Result.*;
+import static domain.Result.DRAW;
+import static domain.Result.LOSE;
+import static domain.Result.WIN;
 
 public class Results {
-
 
     private final List<Result> results;
 
@@ -14,7 +14,7 @@ public class Results {
         this.results = new ArrayList<>();
     }
 
-    public void addResult(Result result) {
+    public void addResult(final Result result) {
         results.add(result);
     }
 

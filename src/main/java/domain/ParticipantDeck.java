@@ -20,19 +20,19 @@ public class ParticipantDeck {
         return Collections.unmodifiableList(cards);
     }
 
-    public void add(Card card) {
+    public void add(final Card card) {
         cards.add(card);
     }
 
     public int sum() {
         int sum = calculateSum();
-        if (findAce()) {
-            return calculateSum();
+        if (isContainAce()) {
+            int specialSum = calculateSpecialSum(sum);
+            return calculateMax(sum, specialSum);
         }
         return sum;
     }
-
-    public int calculateSum() {
+    private int calculateSum() {
         int sum = 0;
         for (Card card : cards) {
             sum += card.getNumber();
@@ -40,20 +40,18 @@ public class ParticipantDeck {
         return sum;
     }
 
-    public boolean findAce() {
+    private boolean isContainAce() {
         return this.cards.stream()
                 .anyMatch(card -> card.isAce(card.getValue()));
     }
-
-    public int calculateMax(int sum) {
-        int specialSum = sum + LARGE_ACE_NUMBER - SMALL_ACE_NUMBER;
+    private int calculateMax(final int sum, final int specialSum) {
         if (specialSum <= BLACK_JACK) {
             return specialSum;
         }
         return sum;
     }
 
-    public Card getFirstCard() {
-        return cards.get(0);
+    private int calculateSpecialSum(final int sum) {
+        return sum + LARGE_ACE_NUMBER - SMALL_ACE_NUMBER;
     }
 }

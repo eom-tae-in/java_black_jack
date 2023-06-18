@@ -7,7 +7,7 @@ public class OnlyOneCardResponseDto {
     private final String name;
     private final String value;
 
-    public OnlyOneCardResponseDto(String name, String value) {
+    public OnlyOneCardResponseDto(final String name,final String value) {
         this.name = name;
         this.value = value;
     }
@@ -20,7 +20,7 @@ public class OnlyOneCardResponseDto {
         return value;
     }
 
-    public static OnlyOneCardResponseDto toDto(Dealer dealer) {
+    public static OnlyOneCardResponseDto toDto(final Dealer dealer) {
         return new OnlyOneCardResponseDto(dealer.getName(), dealer.getFirstCardValue());
     }
 }

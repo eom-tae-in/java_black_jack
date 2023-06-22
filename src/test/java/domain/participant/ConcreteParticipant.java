@@ -2,21 +2,16 @@ package domain.participant;
 
 import domain.Name;
 import domain.Participant;
-import domain.ParticipantDeck;
-import domain.Result;
+import domain.Deck;
 
 class ConcreteParticipant extends Participant {
 
-    public ConcreteParticipant(final Name name, final ParticipantDeck participantDeck) {
-        super(name, participantDeck);
+    public ConcreteParticipant(final Name name, final Deck deck) {
+        super(name, deck);
     }
 
     @Override
-    public void addResult(final Result result) {
-    }
-
-    @Override
-    public String getResult() {
-        return null;
+    public int getMoney() {
+        return 0;
     }
 }

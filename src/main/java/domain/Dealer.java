@@ -1,24 +1,17 @@
 package domain;
 
-import exception.CardDeckEmptyException;
-import static domain.Result.DRAW;
-import static domain.Result.LOSE;
-import static domain.Result.WIN;
+import static exception.CardMessage.EMPTY_CARD_DECK_EXCEPTION;
 
 public class Dealer extends Participant {
 
     private static final int DEALER_MINIMUM_NUMBER = 16;
-    private static final int NEVER = 0;
-    private static final String BLANK = " ";
     private static final int FIRST_CARD_INDEX = 0;
-    private static final String CARD_DECK_IS_EMPTY = "받은 카드가 없습니다.";
 
-    private final Results results;
+    private final Amount amount;
 
-
-    public Dealer(final Name name, final ParticipantDeck participantDeck, final Results results) {
-        super(name, participantDeck);
-        this.results = results;
+    public Dealer(final Name name, final Deck deck, final Amount amount) {
+        super(name, deck);
+        this.amount = amount;
     }
 
     public boolean canGetMoreCard() {
@@ -31,28 +24,17 @@ public class Dealer extends Participant {
 
     public Card getFirstCard() {
         if (getDeck().isEmpty()) {
-            throw new CardDeckEmptyException(CARD_DECK_IS_EMPTY);
+            throw new RuntimeException(EMPTY_CARD_DECK_EXCEPTION.getMessage());
         }
         return getDeck().get(FIRST_CARD_INDEX);
     }
 
-    @Override
-    public void addResult(final Result result) {
-        results.addResult(result);
+    public void changeAmount(final ProfitRate profitRate, final int battingAmount) {
+        amount.addProfitOrLoss(profitRate, battingAmount);
     }
 
     @Override
-    public String getResult() {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (results.getWin() != NEVER) {
-            stringBuilder.append(results.getWin() + WIN.getResult() + BLANK);
-        }
-        if (results.getDraw() != NEVER) {
-            stringBuilder.append(results.getDraw() + DRAW.getResult() + BLANK);
-        }
-        if (results.getLose() != NEVER) {
-            stringBuilder.append(results.getLose() + LOSE.getResult());
-        }
-        return String.valueOf(stringBuilder);
+    public int getMoney() {
+        return amount.getAmount();
     }
 }

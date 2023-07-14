@@ -17,30 +17,24 @@ public class PlayersTest {
     }
 
     @Test
-    @DisplayName("player를 list에 더하는 메서드 테스트")
-    void check_add_player() {
-        //when
-        players.add(new Player(new Name("test"), new ParticipantDeck()));
-
-        //then
-        assertThat(players.getPlayers().size()).isEqualTo(1);
-        assertThat(players.getPlayers().get(0).getName()).isEqualTo("test");
-        assertThat(players.getPlayers().get(0).getDeck().size()).isEqualTo(0);
-        assertThat(players.getPlayers().get(0).getSum()).isEqualTo(0);
-    }
-
-    @Test
-    @DisplayName("게임에 참여한 플레이어들을 반환한다.")
-    void check_return_players() {
+    @DisplayName("게임에 참여하는 플레이어들을 추가하고 추가한 플레이어들을 반환한다.")
+    void check_add_player_and_return_players() {
         //given
-        players.add(new Player(new Name("test1"), new ParticipantDeck()));
-        players.add(new Player(new Name("test2"), new ParticipantDeck()));
-        players.add(new Player(new Name("test3"), new ParticipantDeck()));
+        players.add(createPlayer("test1"));
+        players.add(createPlayer("test2"));
+        players.add(createPlayer("test3"));
 
         //when
         List<Player> playerList = players.getPlayers();
 
         //then
         assertThat(playerList.size()).isEqualTo(3);
+        assertThat(playerList.get(0).getName()).isEqualTo("test1");
+        assertThat(playerList.get(1).getName()).isEqualTo("test2");
+        assertThat(playerList.get(2).getName()).isEqualTo("test3");
+    }
+
+    private Player createPlayer(String name) {
+        return new Player(new Name(name), new Deck(), new Money());
     }
 }

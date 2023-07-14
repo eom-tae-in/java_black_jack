@@ -1,8 +1,5 @@
 package domain;
 
-import exception.InputBlankException;
-import exception.InputEmptyException;
-import exception.WrongInputException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -60,10 +57,10 @@ public class AnswerTest {
 
     private static Stream<Arguments> testStringProvider() {
         return Stream.of(
-                Arguments.of("test", WrongInputException.class),
-                Arguments.of("", InputEmptyException.class),
-                Arguments.of(" ", InputBlankException.class),
-                Arguments.of("    ", InputBlankException.class),
+                Arguments.of("test", IllegalArgumentException.class),
+                Arguments.of("", IllegalArgumentException.class),
+                Arguments.of(" ", IllegalArgumentException.class),
+                Arguments.of("    ", IllegalArgumentException.class),
                 Arguments.of(null, NullPointerException.class)
         );
     }

@@ -124,8 +124,8 @@ public class Controller {
     private void decideResult(final Dealer dealer, final Players players) {
         for (Player player : players.getPlayers()) {
             RefereeResultResponse refereeResultResponse = referee.decideResult(dealer.getSum(), player.getSum());
-            player.calculateProfitOrLoss(refereeResultResponse.getPlayerResult());
             dealer.changeAmount(refereeResultResponse.getDealerResult(), player.getMoney());
+            player.calculateProfitOrLoss(refereeResultResponse.getPlayerResult());
         }
     }
 

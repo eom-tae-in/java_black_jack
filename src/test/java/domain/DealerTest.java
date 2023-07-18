@@ -1,6 +1,5 @@
 package domain;
 
-import exception.CardDeckEmptyException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,13 +12,14 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-public class DealerTest {
+public class
+DealerTest {
 
     private Dealer dealer;
 
     @BeforeEach
     void initData() {
-        dealer = new Dealer(new Name("딜러"), new ParticipantDeck(), new Results());
+        dealer = new Dealer(new Name("딜러"), new Deck(), new Amount());
     }
 
     @ParameterizedTest
@@ -28,7 +28,7 @@ public class DealerTest {
     void check_card_sum_sixteen_or_less_return_true(List<Card> cards, boolean expected) {
         //given
         IntStream.range(0, cards.size()).forEach(i -> {
-            dealer.getCard(cards.get(i));
+            dealer.receiveCard(cards.get(i));
         });
 
         //when
@@ -42,8 +42,8 @@ public class DealerTest {
     @DisplayName("딜러의 카드 중 가장 먼저 뽑은 한 장의 카드만 반환한다.")
     void check_return_first_card() {
         //given
-        dealer.getCard(new Card(new Shape("다이아몬드"), new Value("4", 4)));
-        dealer.getCard(new Card(new Shape("하트"), new Value("9", 9)));
+        dealer.receiveCard(new Card(new Shape("다이아몬드"), new Value("4", 4)));
+        dealer.receiveCard(new Card(new Shape("하트"), new Value("9", 9)));
 
         //when
         Card card = dealer.getFirstCard();
@@ -55,22 +55,38 @@ public class DealerTest {
     }
 
     @Test
+    @DisplayName("가장 먼저 뽑은 카드의 value와 shpae를 반환한다.")
+    void check_return_value_and_shape_first_card() {
+        //given
+        dealer.receiveCard(new Card(new Shape("다이아몬드"), new Value("4", 4)));
+        dealer.receiveCard(new Card(new Shape("하트"), new Value("9", 9)));
+
+        //when
+        String cardValue = dealer.getFirstCardValue();
+
+        //then
+        assertThat(cardValue).isEqualTo("4다이아몬드");
+    }
+
+    @Test
     @DisplayName("딜러가 가장 먼저 뽑은 카드를 반환할 때 딜러가 카드가 없으면 예외가 발생한다.")
     void get_first_card_but_no_card_throw_exception() {
         //when //then
         assertThatThrownBy(() -> dealer.getFirstCard())
-                .isInstanceOf(CardDeckEmptyException.class);
+                .isInstanceOf(RuntimeException.class);
     }
 
     @ParameterizedTest
-    @DisplayName("딜러의 게임 결과를 저장하고 저장한 결과를 반환한다.")
-    @MethodSource("resultProvider")
-    void check_add_game_result_and_check_get_game_result(Result result, String expected) {
+    @DisplayName("딜러의 게임 결과에 따른 수익을 더하고 수익을 반환한다.")
+    @MethodSource("profitProvider")
+    void check_add_game_result_and_check_get_game_result(ProfitRate profitRate, int battingAmount, int expected) {
+
         //when
-        dealer.addResult(result);
-        String answer = dealer.getResult();
+        dealer.changeAmount(profitRate, battingAmount);
+        int money = dealer.getMoney();
+
         //then
-        assertThat(answer).isEqualTo(expected);
+        assertThat(money).isEqualTo(expected);
     }
 
     private static Stream<Arguments> getMoreCardProvider() {
@@ -90,11 +106,13 @@ public class DealerTest {
                 new Card(new Shape("하트"), new Value("Q", 10)));
     }
 
-    private static Stream<Arguments> resultProvider() {
+    private static Stream<Arguments> profitProvider() {
         return Stream.of(
-                Arguments.of(Result.WIN, "1승 "),
-                Arguments.of(Result.DRAW, "1무 "),
-                Arguments.of(Result.LOSE, "1패")
+                Arguments.of(ProfitRate.BLACK_JACK, 10000, 15000),
+                Arguments.of(ProfitRate.BOTH_BLACK_JACK, 10000, 10000),
+                Arguments.of(ProfitRate.WIN, 10000, 10000),
+                Arguments.of(ProfitRate.DRAW, 10000, 0),
+                Arguments.of(ProfitRate.LOSE, 10000, -10000)
         );
     }
 }

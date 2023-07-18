@@ -7,15 +7,15 @@ public abstract class Participant {
     private static final int BLACK_JACK = 21;
 
     private final Name name;
-    private final ParticipantDeck participantDeck;
+    private final Deck deck;
 
-    public Participant(final Name name, final ParticipantDeck participantDeck) {
+    public Participant(final Name name, final Deck deck) {
         this.name = name;
-        this.participantDeck = participantDeck;
+        this.deck = deck;
     }
 
-    public void getCard(final Card card) {
-        participantDeck.add(card);
+    public void receiveCard(final Card card) {
+        deck.add(card);
     }
 
     public String getName() {
@@ -23,17 +23,16 @@ public abstract class Participant {
     }
 
     public int getSum() {
-        return participantDeck.sum();
+        return deck.sum();
     }
 
     public List<Card> getDeck() {
-        return participantDeck.getCards();
+        return deck.getCards();
     }
 
     public boolean isGameOver() {
-        return participantDeck.sum() > BLACK_JACK;
+        return deck.sum() > BLACK_JACK;
     }
 
-    abstract public void addResult(final Result result);
-    abstract public String getResult();
+    abstract public int getMoney();
 }

@@ -3,46 +3,44 @@ package controller;
 import domain.Answer;
 import domain.CardDeck;
 import domain.Dealer;
+import domain.Money;
 import domain.Name;
-import domain.ParticipantDeck;
+import domain.Deck;
 import domain.Player;
 import domain.Players;
 import domain.Referee;
-import domain.Results;
-import dto.DeckAndSumResponseDto;
-import dto.DeckResponseDto;
-import dto.OnlyOneCardResponseDto;
-import dto.RefereeResultResponseDto;
-import dto.ResultResponseDto;
+import domain.Amount;
+import dto.DeckAndSumResponse;
+import dto.DeckResponse;
+import dto.CardResponse;
+import dto.NameResponse;
+import dto.RefereeResultResponse;
+import dto.ResultResponse;
+import view.InputView;
 import view.OutputView;
 import java.util.ArrayList;
 import java.util.Arrays;
-import static view.InputView.receiveAnswer;
-import static view.InputView.receiveName;
-import static view.OutputView.askName;
-import static view.OutputView.printDealerDrew;
-import static view.OutputView.printDeck;
-import static view.OutputView.printDeckAndSum;
-import static view.OutputView.printOneLineJump;
-import static view.OutputView.printOnlyOneCard;
-import static view.OutputView.printResult;
-import static view.OutputView.printResultPhase;
 
 public class Controller {
 
     private final CardDeck cardDeck;
     private final Referee referee;
+    private final OutputView outputView;
+    private final InputView inputView;
 
     private static final String DEALER = "딜러";
 
-    public Controller(final CardDeck cardDeck, final Referee referee) {
+    public Controller(final CardDeck cardDeck, final Referee referee, final OutputView outputView, final InputView inputView) {
         this.cardDeck = cardDeck;
         this.referee = referee;
+        this.outputView = outputView;
+        this.inputView = inputView;
     }
 
     public void start() {
         Players players = getPlayers();
         Dealer dealer = getDealer();
+        setBettingAmount(players);
         firstDraw(dealer, players);
         showFirstDeck(dealer, players);
         getMoreCard(dealer, players);
@@ -52,84 +50,98 @@ public class Controller {
     }
 
     private Players getPlayers() {
-        askName();
-        String[] playerNames = receiveName();
+        outputView.askName();
+        String[] playerNames = inputView.receiveName();
         ArrayList<Player> players = new ArrayList<>();
-        Arrays.stream(playerNames).forEach(player -> players.add(new Player(new Name(player), new ParticipantDeck())));
-        printOneLineJump();
+        Arrays.stream(playerNames)
+                .forEach(player -> players.add(new Player(new Name(player), new Deck(), new Money())));
+        outputView.printOneLineJump();
         return new Players(players);
     }
 
+    private void setBettingAmount(final Players players) {
+        for (Player player : players.getPlayers()) {
+            outputView.askBettingAmount(new NameResponse(player.getName()));
+            player.setMoney(inputView.receiveMoney());
+            outputView.printOneLineJump();
+        }
+    }
+
     private Dealer getDealer() {
-        return new Dealer(new Name(DEALER), new ParticipantDeck(), new Results());
+        return new Dealer(new Name(DEALER), new Deck(), new Amount());
     }
 
     private void firstDraw(final Dealer dealer, final Players players) {
-        dealer.getCard(cardDeck.draw());
-        dealer.getCard(cardDeck.draw());
+        dealer.receiveCard(cardDeck.draw());
+        dealer.receiveCard(cardDeck.draw());
         for (Player player : players.getPlayers()) {
-            player.getCard(cardDeck.draw());
-            player.getCard(cardDeck.draw());
+            player.receiveCard(cardDeck.draw());
+            player.receiveCard(cardDeck.draw());
         }
     }
 
     private void showFirstDeck(final Dealer dealer, final Players players) {
-        printOnlyOneCard(OnlyOneCardResponseDto.toDto(dealer));
+        outputView.printCard(CardResponse.toDto(dealer));
         for (Player player : players.getPlayers()) {
-            printDeck(DeckResponseDto.toDto(player));
+            outputView.printDeck(DeckResponse.toDto(player));
         }
-        printOneLineJump();
+        outputView.printOneLineJump();
     }
 
     private void getMoreCard(final Dealer dealer, final Players players) {
         for (Player player : players.getPlayers()) {
             askGetMoreCard(player);
         }
-        printOneLineJump();
+        outputView.printOneLineJump();
         checkGetMoreCard(dealer);
-        printOneLineJump();
+        outputView.printOneLineJump();
     }
 
     private void askGetMoreCard(final Player player) {
-        while (!player.isGameOver() && Answer.isYes(getAnswer(player.getName()))) {
-            player.getCard(cardDeck.draw());
-            printDeck(DeckResponseDto.toDto(player));
+        while (canGetMoreCard(player)) {
+            player.receiveCard(cardDeck.draw());
+            outputView.printDeck(DeckResponse.toDto(player));
         }
     }
+
+    private boolean canGetMoreCard(final Player player) {
+        return !player.isGameOver() && Answer.isYes(getAnswer(new NameResponse(player.getName())));
+    }
+
 
     private void checkGetMoreCard(final Dealer dealer) {
         while (dealer.canGetMoreCard()) {
-            dealer.getCard(cardDeck.draw());
-            printDealerDrew();
+            dealer.receiveCard(cardDeck.draw());
+            outputView.printDealerDrew();
         }
     }
 
-    private String getAnswer(final String player) {
-        OutputView.askGetMoreCard(player);
-        return receiveAnswer();
+    private String getAnswer(final NameResponse nameResponse) {
+        outputView.askGetMoreCard(nameResponse);
+        return inputView.receiveAnswer();
     }
 
     private void decideResult(final Dealer dealer, final Players players) {
         for (Player player : players.getPlayers()) {
-            RefereeResultResponseDto refereeResultResponseDto = referee.decideResult(dealer.getSum(), player.getSum());
-            player.addResult(refereeResultResponseDto.getPlayerResult());
-            dealer.addResult(refereeResultResponseDto.getDealerResult());
+            RefereeResultResponse refereeResultResponse = referee.decideResult(dealer.getSum(), player.getSum());
+            dealer.changeAmount(refereeResultResponse.getDealerResult(), player.getMoney());
+            player.calculateProfitOrLoss(refereeResultResponse.getPlayerResult());
         }
     }
 
     private void showDeckAndSum(final Dealer dealer, final Players players) {
-        printDeckAndSum(DeckAndSumResponseDto.toDto(dealer));
+        outputView.printDeckAndSum(DeckAndSumResponse.toDto(dealer));
         for (Player player : players.getPlayers()) {
-            printDeckAndSum(DeckAndSumResponseDto.toDto(player));
+            outputView.printDeckAndSum(DeckAndSumResponse.toDto(player));
         }
-        printOneLineJump();
+        outputView.printOneLineJump();
     }
 
     private void showResult(final Dealer dealer, final Players players) {
-        printResultPhase();
-        printResult(ResultResponseDto.toDto(dealer));
+        outputView.printResultPhase();
+        outputView.printResult(ResultResponse.toDto(dealer));
         for (Player player : players.getPlayers()) {
-            printResult(ResultResponseDto.toDto(player));
+            outputView.printResult(ResultResponse.toDto(player));
         }
     }
 }
